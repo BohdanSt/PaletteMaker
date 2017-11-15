@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PalleteMaker.PalleteGenerator
+namespace PalleteMaker.Pallete
 {
     public struct ColorCluster
     {

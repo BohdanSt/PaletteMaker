@@ -6,19 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Emgu.CV.CvEnum;
 
-namespace PalleteMaker.PalleteGenerator
+namespace PalleteMaker.Pallete
 {
-    static class PalleteGenerator
+    public static class PalleteGenerator
     {
         public static int clustersCount;
+        public static Image<Bgr, byte> currentImage;
+        public static Image<Bgr, byte> palleteImage;
 
         static Range range = new Range(0, 255);
         static Random random = new Random();
-        static Image<Bgr, byte> currentImage = null;
 
         public static void Generate()
         {
+            Image<Bgr, byte> smallImage = new Image<Bgr, byte>(currentImage.Width / 10, currentImage.Height / 10);
+            CvInvoke.Resize(currentImage, smallImage, new System.Drawing.Size(currentImage.Width / 10, currentImage.Height / 10), 0, 0, Inter.Linear);
+            currentImage = smallImage;
+
+            palleteImage = null;
+
             Image<Bgr, byte> clusterImage = new Image<Bgr, byte>(currentImage.Size);
             clusterImage.SetZero();
 
@@ -42,14 +50,16 @@ namespace PalleteMaker.PalleteGenerator
 
             colors.Sort(colorSortExpression);
 
-            Image <Bgr, byte> palleteImage = new Image<Bgr, byte>(currentImage.Size);
+            palleteImage = new Image<Bgr, byte>(currentImage.Width, currentImage.Height);
             palleteImage.SetZero();
             int h = palleteImage.Height / clustersCount;
             int w = palleteImage.Width;
             for (int i = 0; i < clustersCount; i++)
             {
-                CvInvoke.Rectangle(palleteImage, new System.Drawing.Rectangle(0, i * h, w, i * h + h), clusters[colors[i].Item1].color);
+                CvInvoke.Rectangle(palleteImage, new System.Drawing.Rectangle(0, i * h, w, i * h + h), clusters[colors[i].Item1].color, -1);
             }
+
+            currentImage = null;
         }
 
         private static void DivisionToClusters(Image<Bgr, byte> clusterImage, ColorCluster[] clusters)
@@ -86,6 +96,7 @@ namespace PalleteMaker.PalleteGenerator
                                 clusterIndex = i;
                             }
                         }
+
                         // Set index of cluster
                         clusterImage[0].Data[y, x, 0] = (byte)clusterIndex;
 
@@ -112,6 +123,8 @@ namespace PalleteMaker.PalleteGenerator
                     break;
 
                 oldRGBEuclidean = minRGBEuclidean;
+
+                GC.Collect();
             }
         }
 
