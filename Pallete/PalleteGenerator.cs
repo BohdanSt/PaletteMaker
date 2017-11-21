@@ -7,65 +7,54 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Emgu.CV.CvEnum;
+using System.Drawing;
 
 namespace PalleteMaker.Pallete
 {
     public static class PalleteGenerator
     {
-        public static int clustersCount;
-        public static Image<Bgr, byte> currentImage;
-        public static Image<Bgr, byte> palleteImage;
+        static int clustersCount;
+        static Image<Bgr, byte> currentImage;
+        static Image<Bgr, byte> palleteImage;
 
         static Range range = new Range(0, 255);
         static Random random = new Random();
 
-        public static void Generate()
+        public static Image<Bgr, byte> Generate(int count, Bitmap image, int imagePalleteWidth, int imagePalleteHeight)
         {
-            Image<Bgr, byte> smallImage = new Image<Bgr, byte>(currentImage.Width / 10, currentImage.Height / 10);
-            CvInvoke.Resize(currentImage, smallImage, new System.Drawing.Size(currentImage.Width / 10, currentImage.Height / 10), 0, 0, Inter.Linear);
-            currentImage = smallImage;
+            ColorCluster[] clusters;
+            InitializeData(count, image, out clusters);
+
+            DivisionToClusters(clusters);
+
+            CreatePallete(clusters, imagePalleteWidth, imagePalleteHeight);
+
+            return palleteImage;
+        }
+
+        private static void InitializeData(int count, Bitmap image, out ColorCluster[] clusters)
+        {
+            clustersCount = count;
 
             palleteImage = null;
 
-            Image<Bgr, byte> clusterImage = new Image<Bgr, byte>(currentImage.Size);
-            clusterImage.SetZero();
+            currentImage = new Image<Bgr, byte>(image);
+            currentImage = ResizeImage(currentImage);
 
-            ColorCluster[] clusters = new ColorCluster[clustersCount];
-
+            clusters = new ColorCluster[clustersCount];
             for (int i = 0; i < clustersCount; i++)
             {
                 clusters[i].newColor = new MCvScalar(random.Next(range.Start, range.End), random.Next(range.Start, range.End), random.Next(range.Start, range.End));
             }
-
-            DivisionToClusters(clusterImage, clusters);
-
-            List<Tuple<int, int>> colors = new List<Tuple<int, int>>(clustersCount);
-            int colorsCount = 0;
-            for (int i = 0; i < clustersCount; i++)
-            {
-                colors.Add(new Tuple<int, int>(i, clusters[i].count));
-                if (clusters[i].count > 0)
-                    colorsCount++;
-            }
-
-            colors.Sort(colorSortExpression);
-
-            palleteImage = new Image<Bgr, byte>(currentImage.Width, currentImage.Height);
-            palleteImage.SetZero();
-            int h = palleteImage.Height / clustersCount;
-            int w = palleteImage.Width;
-            for (int i = 0; i < clustersCount; i++)
-            {
-                CvInvoke.Rectangle(palleteImage, new System.Drawing.Rectangle(0, i * h, w, i * h + h), clusters[colors[i].Item1].color, -1);
-            }
-
-            currentImage = null;
         }
 
-        private static void DivisionToClusters(Image<Bgr, byte> clusterImage, ColorCluster[] clusters)
+        private static void DivisionToClusters(ColorCluster[] clusters)
         {
             double minRGBEuclidean = 0;
             double oldRGBEuclidean = 0;
+
+            Image<Bgr, byte> clusterImage = new Image<Bgr, byte>(currentImage.Size);
+            clusterImage.SetZero(); ;
 
             while (true)
             {
@@ -125,6 +114,7 @@ namespace PalleteMaker.Pallete
                 oldRGBEuclidean = minRGBEuclidean;
 
                 GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
 
@@ -136,10 +126,44 @@ namespace PalleteMaker.Pallete
                 (p1.V3 - p2.V3) * (p1.V3 - p2.V3));
         }
 
+        private static void CreatePallete(ColorCluster[] clusters, int imagePalleteWidth, int imagePalleteHeight)
+        {
+            List<Tuple<int, int>> colors = new List<Tuple<int, int>>(clustersCount);
+            int colorsCount = 0;
+            for (int i = 0; i < clustersCount; i++)
+            {
+                colors.Add(new Tuple<int, int>(i, clusters[i].count));
+                if (clusters[i].count > 0)
+                    colorsCount++;
+            }
+
+            colors.Sort(colorSortExpression);
+
+            palleteImage = new Image<Bgr, byte>(imagePalleteWidth, imagePalleteHeight);
+            palleteImage.SetZero();
+            int h = palleteImage.Height / colorsCount;
+            int w = palleteImage.Width;
+            for (int i = 0; i < colorsCount; i++)
+            {
+                CvInvoke.Rectangle(palleteImage, new System.Drawing.Rectangle(0, i * h, w, i * h + h), clusters[colors[i].Item1].color, -1);
+            }
+        }
+
         // sorting colors by count
         private static int colorSortExpression(Tuple<int, int> a, Tuple<int, int> b)
         {
             return (a.Item2 > b.Item2)? 1 : 0;
+        }
+
+        private static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> originalImage)
+        {
+            int newWidth = currentImage.Width / 10;
+            int newHeight = currentImage.Height / 10;
+
+            Image<Bgr, byte> smallImage = new Image<Bgr, byte>(newWidth, newHeight);
+            CvInvoke.Resize(currentImage, smallImage, new System.Drawing.Size(newWidth, newHeight), 0, 0, Inter.Linear);
+
+            return smallImage;
         }
     }
 }

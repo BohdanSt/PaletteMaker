@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 using PalleteMaker.Pallete;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using MahApps.Metro.Controls;
 
 namespace PalleteMaker
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
@@ -31,12 +32,8 @@ namespace PalleteMaker
 
         private void buttonGeneratePallete_Click(object sender, RoutedEventArgs e)
         {
-            PalleteGenerator.clustersCount = Convert.ToInt32(textBoxClustersCount.Text);
-            PalleteGenerator.currentImage = new Image<Bgr, byte>(imageControl.Image.Bitmap);
-
-            PalleteGenerator.Generate();
-
-            imagePallete.Image = PalleteGenerator.palleteImage;
+            imagePallete.Image = PalleteGenerator.Generate((int)numericClustersCount.Value, 
+                imageControl.Image.Bitmap, imagePallete.Width, imagePallete.Height);
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)
