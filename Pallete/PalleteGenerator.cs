@@ -11,25 +11,33 @@ using System.Drawing;
 
 namespace PalleteMaker.Pallete
 {
-    public static class PalleteGenerator
+    public class PalleteGenerator
     {
-        static int clustersCount;
-        static Image<Bgr, byte> clusterImage;
-        static Image<Bgr, byte> currentImage;
+        int clustersCount;
+        Image<Bgr, byte> clusterImage;
+        Image<Bgr, byte> currentImage;
 
-        static ColorCluster[] clusters;
+        ColorCluster[] clusters;
 
-        static Range range = new Range(0, 255);
-        static Random random = new Random();
+        Range range = new Range(0, 255);
+        Random random = new Random();
 
-        public static void GeneratePallete(int count, Bitmap image)
+        public delegate void GeneratePalleteFinishedDelegate();
+        public event GeneratePalleteFinishedDelegate GeneratePalleteFinished;
+
+        public async void GeneratePallete(int count, Bitmap image)
         {
             InitializeData(count, image);
 
-            DivisionToClusters();
+            await Task.Factory.StartNew(() =>
+            {
+                DivisionToClusters();
+
+                GeneratePalleteFinished?.Invoke();
+            });
         }
 
-        private static void InitializeData(int count, Bitmap image)
+        private void InitializeData(int count, Bitmap image)
         {
             clustersCount = count;
             clusterImage = null;
@@ -43,7 +51,7 @@ namespace PalleteMaker.Pallete
             }
         }
 
-        private static void DivisionToClusters()
+        private void DivisionToClusters()
         {
             double minRGBEuclidean = 0;
             double oldRGBEuclidean = 0;
@@ -89,6 +97,9 @@ namespace PalleteMaker.Pallete
                         clusters[clusterIndex].newColor.V1 += G;
                         clusters[clusterIndex].newColor.V2 += R;
                     }
+
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
 
                 minRGBEuclidean = 0;
@@ -113,7 +124,7 @@ namespace PalleteMaker.Pallete
             }
         }
 
-        private static double RgbEuclidean(MCvScalar p1, MCvScalar p2)
+        private double RgbEuclidean(MCvScalar p1, MCvScalar p2)
         {
             return Math.Sqrt((p1.V0 - p2.V0) * (p1.V0 - p2.V0) +
                 (p1.V1 - p2.V1) * (p1.V1 - p2.V1) +
@@ -121,7 +132,7 @@ namespace PalleteMaker.Pallete
                 (p1.V3 - p2.V3) * (p1.V3 - p2.V3));
         }
 
-        public static Image<Bgr, byte> CreatePalleteImage(int imagePalleteWidth, int imagePalleteHeight)
+        public Image<Bgr, byte> CreatePalleteImage(int imagePalleteWidth, int imagePalleteHeight)
         {
             List<Tuple<int, int>> colors = new List<Tuple<int, int>>(clustersCount);
             int colorsCount = 0;
@@ -146,7 +157,7 @@ namespace PalleteMaker.Pallete
             return palleteImage;
         }
 
-        public static Image<Bgr, byte> CreatePalleteBasedImage(int imageWidth, int imageHeight)
+        public Image<Bgr, byte> CreatePalleteBasedImage()
         {
             var palleteBasedImage = new Image<Bgr, byte>(currentImage.Bitmap);
 
@@ -162,16 +173,16 @@ namespace PalleteMaker.Pallete
                 }
             }
 
-            return ResizeImage(palleteBasedImage, imageWidth, imageHeight);
+            return palleteBasedImage;
         }
 
         // sorting colors by count
-        private static int colorSortExpression(Tuple<int, int> a, Tuple<int, int> b)
+        private int colorSortExpression(Tuple<int, int> a, Tuple<int, int> b)
         {
             return (a.Item2 > b.Item2)? 1 : 0;
         }
 
-        private static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> originalImage, int? width = null, int? height = null)
+        private Image<Bgr, byte> ResizeImage(Image<Bgr, byte> originalImage, int? width = null, int? height = null)
         {
             if (width == null || height == null)
             {
@@ -182,7 +193,7 @@ namespace PalleteMaker.Pallete
                     width >>= 1;
                     height >>= 1;
                 }
-                while (width > 175 && height > 175);
+                while (width > 200 && height > 200);
             }
 
             Image<Bgr, byte> smallImage = new Image<Bgr, byte>(width.Value, height.Value);

@@ -25,18 +25,25 @@ namespace PalleteMaker
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        PalleteGenerator palleteGenerator = new PalleteGenerator();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            palleteGenerator.GeneratePalleteFinished += PalleteGenerator_GeneratePalleteFinished;
+        }
+
+        private void PalleteGenerator_GeneratePalleteFinished()
+        {
+            imagePallete.Image = palleteGenerator.CreatePalleteImage(imagePallete.Width, imagePallete.Height);
+
+            imagePalleteBased.Image = palleteGenerator.CreatePalleteBasedImage();
         }
 
         private void buttonGeneratePallete_Click(object sender, RoutedEventArgs e)
         {
-            PalleteGenerator.GeneratePallete((int)numericClustersCount.Value, imageControl.Image.Bitmap);
-
-            imagePallete.Image = PalleteGenerator.CreatePalleteImage(imagePallete.Width, imagePallete.Height);
-
-            imagePalleteBased.Image = PalleteGenerator.CreatePalleteBasedImage(imageControl.Image.Size.Width, imageControl.Image.Size.Height);
+            palleteGenerator.GeneratePallete((int)numericClustersCount.Value, imageControl.Image.Bitmap);
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)

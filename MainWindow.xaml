@@ -22,7 +22,11 @@
             <emgu:ImageBox x:Name="imageControl" SizeMode="Zoom"/>
         </WindowsFormsHost>
 
-        <Grid Grid.Row="1">
+        <WindowsFormsHost Grid.Row="1" Margin="10">
+            <emgu:ImageBox x:Name="imagePalleteBased" SizeMode="Zoom" MaximumSize="200, 200"/>
+        </WindowsFormsHost>
+
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -32,22 +36,18 @@
                 <emgu:ImageBox x:Name="imagePallete" SizeMode="Zoom"/>
             </WindowsFormsHost>
 
-            <WindowsFormsHost Grid.Row="1" Margin="10">
-                <emgu:ImageBox x:Name="imagePalleteBased" SizeMode="Zoom"/>
-            </WindowsFormsHost>
-        </Grid>
-
-
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-            <DockPanel Margin="10" HorizontalAlignment="Center">
-                <metro:NumericUpDown x:Name="numericClustersCount" Width="100" DockPanel.Dock="Left"
+            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+                <DockPanel Margin="10" HorizontalAlignment="Center">
+                    <metro:NumericUpDown x:Name="numericClustersCount" Width="100" DockPanel.Dock="Left"
                     Minimum="3" Maximum="7" Value="5" HasDecimals="False"/>
-                <TextBlock Text="Clusters count" Margin="10 0 0 0" DockPanel.Dock="Right"/>
-            </DockPanel>
-            <Button x:Name="buttonOpenImage" Content="Open image" Click="buttonOpenImage_Click" 
+                    <TextBlock Text="Clusters count" Margin="10 0 0 0" DockPanel.Dock="Right"/>
+                </DockPanel>
+                <Button x:Name="buttonOpenImage" Content="Open image" Click="buttonOpenImage_Click" 
                     Margin="10" Width="200" Height="35"/>
-            <Button x:Name="buttonGeneratePallete" Content="Generate Pallete" Click="buttonGeneratePallete_Click" 
+                <Button x:Name="buttonGeneratePallete" Content="Generate Pallete" Click="buttonGeneratePallete_Click" 
                     Margin="10" Width="200" Height="35"/>
-        </StackPanel>
+            </StackPanel>
+        </Grid>
+        
     </Grid>
 </metro:MetroWindow>
