@@ -32,8 +32,11 @@ namespace PalleteMaker
 
         private void buttonGeneratePallete_Click(object sender, RoutedEventArgs e)
         {
-            imagePallete.Image = PalleteGenerator.Generate((int)numericClustersCount.Value, 
-                imageControl.Image.Bitmap, imagePallete.Width, imagePallete.Height);
+            PalleteGenerator.GeneratePallete((int)numericClustersCount.Value, imageControl.Image.Bitmap);
+
+            imagePallete.Image = PalleteGenerator.CreatePalleteImage(imagePallete.Width, imagePallete.Height);
+
+            imagePalleteBased.Image = PalleteGenerator.CreatePalleteBasedImage(imageControl.Image.Size.Width, imageControl.Image.Size.Height);
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)

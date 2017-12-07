@@ -14,32 +14,27 @@ namespace PalleteMaker.Pallete
     public static class PalleteGenerator
     {
         static int clustersCount;
+        static Image<Bgr, byte> clusterImage;
         static Image<Bgr, byte> currentImage;
-        static Image<Bgr, byte> palleteImage;
+
+        static ColorCluster[] clusters;
 
         static Range range = new Range(0, 255);
         static Random random = new Random();
 
-        public static Image<Bgr, byte> Generate(int count, Bitmap image, int imagePalleteWidth, int imagePalleteHeight)
+        public static void GeneratePallete(int count, Bitmap image)
         {
-            ColorCluster[] clusters;
-            InitializeData(count, image, out clusters);
+            InitializeData(count, image);
 
-            DivisionToClusters(clusters);
-
-            CreatePallete(clusters, imagePalleteWidth, imagePalleteHeight);
-
-            return palleteImage;
+            DivisionToClusters();
         }
 
-        private static void InitializeData(int count, Bitmap image, out ColorCluster[] clusters)
+        private static void InitializeData(int count, Bitmap image)
         {
             clustersCount = count;
+            clusterImage = null;
 
-            palleteImage = null;
-
-            currentImage = new Image<Bgr, byte>(image);
-            currentImage = ResizeImage(currentImage);
+            currentImage = ResizeImage(new Image<Bgr, byte>(image));
 
             clusters = new ColorCluster[clustersCount];
             for (int i = 0; i < clustersCount; i++)
@@ -48,13 +43,13 @@ namespace PalleteMaker.Pallete
             }
         }
 
-        private static void DivisionToClusters(ColorCluster[] clusters)
+        private static void DivisionToClusters()
         {
             double minRGBEuclidean = 0;
             double oldRGBEuclidean = 0;
 
-            Image<Bgr, byte> clusterImage = new Image<Bgr, byte>(currentImage.Size);
-            clusterImage.SetZero(); ;
+            clusterImage = new Image<Bgr, byte>(currentImage.Size);
+            clusterImage.SetZero();
 
             while (true)
             {
@@ -126,7 +121,7 @@ namespace PalleteMaker.Pallete
                 (p1.V3 - p2.V3) * (p1.V3 - p2.V3));
         }
 
-        private static void CreatePallete(ColorCluster[] clusters, int imagePalleteWidth, int imagePalleteHeight)
+        public static Image<Bgr, byte> CreatePalleteImage(int imagePalleteWidth, int imagePalleteHeight)
         {
             List<Tuple<int, int>> colors = new List<Tuple<int, int>>(clustersCount);
             int colorsCount = 0;
@@ -139,7 +134,7 @@ namespace PalleteMaker.Pallete
 
             colors.Sort(colorSortExpression);
 
-            palleteImage = new Image<Bgr, byte>(imagePalleteWidth, imagePalleteHeight);
+            var palleteImage = new Image<Bgr, byte>(imagePalleteWidth, imagePalleteHeight);
             palleteImage.SetZero();
             int h = palleteImage.Height / colorsCount;
             int w = palleteImage.Width;
@@ -147,6 +142,27 @@ namespace PalleteMaker.Pallete
             {
                 CvInvoke.Rectangle(palleteImage, new System.Drawing.Rectangle(0, i * h, w, i * h + h), clusters[colors[i].Item1].color, -1);
             }
+
+            return palleteImage;
+        }
+
+        public static Image<Bgr, byte> CreatePalleteBasedImage(int imageWidth, int imageHeight)
+        {
+            var palleteBasedImage = new Image<Bgr, byte>(currentImage.Bitmap);
+
+            for (int y = 0; y < palleteBasedImage.Height; y++)
+            {
+                for (int x = 0; x < palleteBasedImage.Width; x++)
+                {
+                    int cluster_index = clusterImage[0].Data[y, x, 0];
+
+                    palleteBasedImage[0].Data[y, x, 0] = (byte)clusters[cluster_index].color.V0;
+                    palleteBasedImage[1].Data[y, x, 0] = (byte)clusters[cluster_index].color.V1;
+                    palleteBasedImage[2].Data[y, x, 0] = (byte)clusters[cluster_index].color.V2;
+                }
+            }
+
+            return ResizeImage(palleteBasedImage, imageWidth, imageHeight);
         }
 
         // sorting colors by count
@@ -155,13 +171,22 @@ namespace PalleteMaker.Pallete
             return (a.Item2 > b.Item2)? 1 : 0;
         }
 
-        private static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> originalImage)
+        private static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> originalImage, int? width = null, int? height = null)
         {
-            int newWidth = currentImage.Width / 10;
-            int newHeight = currentImage.Height / 10;
+            if (width == null || height == null)
+            {
+                width = originalImage.Width;
+                height = originalImage.Height;
+                do
+                {
+                    width >>= 1;
+                    height >>= 1;
+                }
+                while (width > 175 && height > 175);
+            }
 
-            Image<Bgr, byte> smallImage = new Image<Bgr, byte>(newWidth, newHeight);
-            CvInvoke.Resize(currentImage, smallImage, new System.Drawing.Size(newWidth, newHeight), 0, 0, Inter.Linear);
+            Image<Bgr, byte> smallImage = new Image<Bgr, byte>(width.Value, height.Value);
+            CvInvoke.Resize(originalImage, smallImage, new System.Drawing.Size(width.Value, height.Value), 0, 0, Inter.Linear);
 
             return smallImage;
         }

@@ -7,7 +7,7 @@
         xmlns:emgu="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.UI"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="550">
+        Title="MainWindow" Height="650" Width="750">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -22,9 +22,21 @@
             <emgu:ImageBox x:Name="imageControl" SizeMode="Zoom"/>
         </WindowsFormsHost>
 
-        <WindowsFormsHost Grid.Row="1" Margin="10">
-            <emgu:ImageBox x:Name="imagePallete" SizeMode="Zoom"/>
-        </WindowsFormsHost>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <WindowsFormsHost Grid.Row="0" Margin="10">
+                <emgu:ImageBox x:Name="imagePallete" SizeMode="Zoom"/>
+            </WindowsFormsHost>
+
+            <WindowsFormsHost Grid.Row="1" Margin="10">
+                <emgu:ImageBox x:Name="imagePalleteBased" SizeMode="Zoom"/>
+            </WindowsFormsHost>
+        </Grid>
+
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <DockPanel Margin="10" HorizontalAlignment="Center">
