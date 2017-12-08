@@ -4,50 +4,85 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PalleteMaker"
-        xmlns:emgu="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.UI"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:pallete="clr-namespace:PalleteMaker.Pallete"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="750">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
 
-        <WindowsFormsHost Grid.ColumnSpan="2" Margin="10">
-            <emgu:ImageBox x:Name="imageControl" SizeMode="Zoom"/>
-        </WindowsFormsHost>
+    <metro:MetroWindow.Resources>
+        <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type metro:HamburgerMenuGlyphItem}">
+            <Grid Height="48">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                    FontSize="16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    Foreground="White"
+                    Text="{Binding Glyph}" />
+                <TextBlock Grid.Column="1"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Foreground="White"
+                    Text="{Binding Label}" />
+            </Grid>
+        </DataTemplate>
+    </metro:MetroWindow.Resources>
 
-        <WindowsFormsHost Grid.Row="1" Margin="10">
-            <emgu:ImageBox x:Name="imagePalleteBased" SizeMode="Zoom" MaximumSize="200, 200"/>
-        </WindowsFormsHost>
-
-        <Grid Grid.Row="1" Grid.Column="1" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <WindowsFormsHost Grid.Row="0" Margin="10">
-                <emgu:ImageBox x:Name="imagePallete" SizeMode="Zoom"/>
-            </WindowsFormsHost>
-
-            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-                <DockPanel Margin="10" HorizontalAlignment="Center">
-                    <metro:NumericUpDown x:Name="numericClustersCount" Width="100" DockPanel.Dock="Left"
-                    Minimum="3" Maximum="7" Value="5" HasDecimals="False"/>
-                    <TextBlock Text="Clusters count" Margin="10 0 0 0" DockPanel.Dock="Right"/>
-                </DockPanel>
-                <Button x:Name="buttonOpenImage" Content="Open image" Click="buttonOpenImage_Click" 
-                    Margin="10" Width="200" Height="35"/>
-                <Button x:Name="buttonGeneratePallete" Content="Generate Pallete" Click="buttonGeneratePallete_Click" 
-                    Margin="10" Width="200" Height="35"/>
-            </StackPanel>
-        </Grid>
+    <metro:HamburgerMenu x:Name="menuControl" Foreground="White" ItemTemplate="{StaticResource MenuItemTemplate}"
+                        OptionsItemTemplate="{StaticResource MenuItemTemplate}" PaneBackground="#FF444444" 
+                        IsPaneOpen="False" DisplayMode="CompactInline">
         
-    </Grid>
+        <metro:HamburgerMenu.ContentTemplate>
+            <DataTemplate DataType="{x:Type metro:HamburgerMenuItem}">
+                <Grid x:Name="TheContentGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                    Background="#FF444444">
+                        <TextBlock x:Name="Header"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="24"
+                            Foreground="White"
+                            Text="{Binding Label}" />
+                    </Border>
+                    <ContentControl x:Name="TheContent"
+                            Grid.Row="1"
+                            Focusable="False"
+                            Foreground="{DynamicResource BlackBrush}"
+                            Content="{Binding Tag}" />
+                </Grid>
+            </DataTemplate>
+        </metro:HamburgerMenu.ContentTemplate>
+
+        <metro:HamburgerMenu.ItemsSource>
+            <metro:HamburgerMenuItemCollection>
+                <metro:HamburgerMenuGlyphItem Glyph="" Label="Home">
+                    <metro:HamburgerMenuGlyphItem.Tag>
+                        <pallete:PalleteGenratorView />
+                    </metro:HamburgerMenuGlyphItem.Tag>
+                </metro:HamburgerMenuGlyphItem>
+
+            </metro:HamburgerMenuItemCollection>
+        </metro:HamburgerMenu.ItemsSource>
+
+        <!--  Options  -->
+        <!--<metro:HamburgerMenu.OptionsItemsSource>
+            <metro:HamburgerMenuItemCollection>
+                <metro:HamburgerMenuGlyphItem Glyph="" Label="About">
+                    <metro:HamburgerMenuGlyphItem.Tag>
+                        <views:AboutView />
+                    </metro:HamburgerMenuGlyphItem.Tag>
+                </metro:HamburgerMenuGlyphItem>
+            </metro:HamburgerMenuItemCollection>
+        </metro:HamburgerMenu.OptionsItemsSource>-->
+
+    </metro:HamburgerMenu>
+    
 </metro:MetroWindow>

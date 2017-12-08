@@ -25,15 +25,31 @@ namespace PalleteMaker.Pallete
         public delegate void GeneratePalleteFinishedDelegate();
         public event GeneratePalleteFinishedDelegate GeneratePalleteFinished;
 
-        public async void GeneratePallete(int count, Bitmap image)
+        public async void GeneratePalleteAsync(int count, Bitmap image)
         {
             InitializeData(count, image);
 
             await Task.Factory.StartNew(() =>
             {
                 DivisionToClusters();
+            }, TaskCreationOptions.LongRunning);
 
-                GeneratePalleteFinished?.Invoke();
+            GeneratePalleteFinished?.Invoke();
+        }
+
+        public async Task<Image<Bgr, byte> > CreatePalleteImageAsync(int imagePalleteWidth, int imagePalleteHeight)
+        {
+            return await Task<Image<Bgr, byte> >.Factory.StartNew(() =>
+            {
+                return CreatePalleteImage(imagePalleteWidth, imagePalleteHeight);
+            });
+        }
+
+        public async Task<Image<Bgr, byte>> CreatePalleteBasedImageAsync()
+        {
+            return await Task<Image<Bgr, byte>>.Factory.StartNew(() =>
+            {
+                return CreatePalleteBasedImage();
             });
         }
 
@@ -132,7 +148,7 @@ namespace PalleteMaker.Pallete
                 (p1.V3 - p2.V3) * (p1.V3 - p2.V3));
         }
 
-        public Image<Bgr, byte> CreatePalleteImage(int imagePalleteWidth, int imagePalleteHeight)
+        private Image<Bgr, byte> CreatePalleteImage(int imagePalleteWidth, int imagePalleteHeight)
         {
             List<Tuple<int, int>> colors = new List<Tuple<int, int>>(clustersCount);
             int colorsCount = 0;
@@ -157,7 +173,7 @@ namespace PalleteMaker.Pallete
             return palleteImage;
         }
 
-        public Image<Bgr, byte> CreatePalleteBasedImage()
+        private Image<Bgr, byte> CreatePalleteBasedImage()
         {
             var palleteBasedImage = new Image<Bgr, byte>(currentImage.Bitmap);
 
