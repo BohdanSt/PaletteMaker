@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,27 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PaletteMaker.Palette;
-using Emgu.CV;
-using Emgu.CV.Structure;
-using MahApps.Metro.Controls;
 
 namespace PaletteMaker
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AboutView.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class AboutView : UserControl
     {
-        public MainWindow()
+        public AboutView()
         {
             InitializeComponent();
-        }
-
-        private void menuControl_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            this.menuControl.Content = e.ClickedItem;
-            this.menuControl.IsPaneOpen = false;
         }
     }
 }

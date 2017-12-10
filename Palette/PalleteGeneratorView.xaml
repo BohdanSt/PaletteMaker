@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="PalleteMaker.Pallete.PalleteGenratorView"
+﻿<UserControl x:Class="PaletteMaker.Palette.PaletteGeneratorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PalleteMaker.Pallete"
+             xmlns:local="clr-namespace:PaletteMaker.Palette"
              xmlns:emgu="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.UI"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" >
@@ -22,7 +22,7 @@
         </WindowsFormsHost>
 
         <WindowsFormsHost Grid.Row="1" Margin="10">
-            <emgu:ImageBox x:Name="imagePalleteBased" SizeMode="Zoom" MaximumSize="200, 200" FunctionalMode="RightClickMenu"/>
+            <emgu:ImageBox x:Name="imagePaletteBased" SizeMode="Zoom" MaximumSize="200, 200" FunctionalMode="RightClickMenu"/>
         </WindowsFormsHost>
 
         <Grid Grid.Row="1" Grid.Column="1" Margin="10">
@@ -32,7 +32,7 @@
             </Grid.RowDefinitions>
 
             <WindowsFormsHost Grid.Row="0" Margin="10">
-                <emgu:ImageBox x:Name="imagePallete" SizeMode="Zoom" FunctionalMode="Minimum"/>
+                <emgu:ImageBox x:Name="imagePalette" SizeMode="Zoom" FunctionalMode="Minimum"/>
             </WindowsFormsHost>
 
             <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
@@ -43,7 +43,7 @@
                 </DockPanel>
                 <Button x:Name="buttonOpenImage" Content="Open image" Click="buttonOpenImage_Click" 
                     Margin="10" Width="200" Height="35"/>
-                <Button x:Name="buttonGeneratePallete" Content="Generate Pallete" Click="buttonGeneratePallete_Click" 
+                <Button x:Name="buttonGeneratePalette" Content="Generate Palette" Click="buttonGeneratePalette_Click" 
                     Margin="10" Width="200" Height="35"/>
             </StackPanel>
         </Grid>

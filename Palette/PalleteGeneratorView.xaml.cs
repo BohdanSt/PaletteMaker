@@ -17,32 +17,35 @@ using Emgu.CV.Structure;
 using MahApps.Metro.Controls;
 using System.Windows.Forms;
 
-namespace PalleteMaker.Pallete
+namespace PaletteMaker.Palette
 {
     /// <summary>
-    /// Interaction logic for PalleteGenratorView.xaml
+    /// Interaction logic for PaletteGeneratorView.xaml
     /// </summary>
-    public partial class PalleteGenratorView : System.Windows.Controls.UserControl
+    public partial class PaletteGeneratorView : System.Windows.Controls.UserControl
     {
-        PalleteGenerator palleteGenerator = new PalleteGenerator();
+        PaletteGenerator PaletteGenerator = new PaletteGenerator();
 
-        public PalleteGenratorView()
+        public PaletteGeneratorView()
         {
             InitializeComponent();
 
-            palleteGenerator.GeneratePalleteFinished += PalleteGenerator_GeneratePalleteFinished;
+            PaletteGenerator.GeneratePaletteFinished += PaletteGenerator_GeneratePaletteFinished;
         }
 
-        private async void PalleteGenerator_GeneratePalleteFinished()
+        private async void PaletteGenerator_GeneratePaletteFinished()
         {
-            imagePallete.Image = await palleteGenerator.CreatePalleteImageAsync(imagePallete.Width, imagePallete.Height);
+            imagePalette.Image = await PaletteGenerator.CreatePaletteImageAsync(imagePalette.Width, imagePalette.Height);
 
-            imagePalleteBased.Image = await palleteGenerator.CreatePalleteBasedImageAsync();
+            imagePaletteBased.Image = await PaletteGenerator.CreatePaletteBasedImageAsync();
+
+            buttonGeneratePalette.IsEnabled = true;
         }
 
-        private void buttonGeneratePallete_Click(object sender, RoutedEventArgs e)
+        private void buttonGeneratePalette_Click(object sender, RoutedEventArgs e)
         {
-            palleteGenerator.GeneratePalleteAsync((int)numericClustersCount.Value, imageControl.Image.Bitmap);
+            buttonGeneratePalette.IsEnabled = false;
+            PaletteGenerator.GeneratePaletteAsync((int)numericClustersCount.Value, imageControl.Image.Bitmap);
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)
