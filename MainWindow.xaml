@@ -8,7 +8,8 @@
         xmlns:palette="clr-namespace:PaletteMaker.Palette"
         mc:Ignorable="d"
         WindowTitleBrush="#FF1C8CBC"
-        Title="PaletteMaker" Height="700" Width="750">
+        WindowStartupLocation="CenterScreen"
+        Title="PaletteMaker" Height="600" Width="950">
 
     <metro:MetroWindow.Resources>
         <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type metro:HamburgerMenuGlyphItem}">
@@ -35,7 +36,7 @@
 
     <metro:HamburgerMenu x:Name="menuControl" Foreground="White" ItemTemplate="{StaticResource MenuItemTemplate}"
                         OptionsItemTemplate="{StaticResource MenuItemTemplate}" PaneBackground="#FF444444" 
-                        IsPaneOpen="False" DisplayMode="CompactInline" SelectedIndex="0"
+                        IsPaneOpen="False" DisplayMode="CompactOverlay" SelectedIndex="0"
                         ItemClick="menuControl_ItemClick" OptionsItemClick="menuControl_ItemClick">
         
         <metro:HamburgerMenu.ContentTemplate>
@@ -65,13 +66,13 @@
 
         <metro:HamburgerMenu.ItemsSource>
             <metro:HamburgerMenuItemCollection>
-                <metro:HamburgerMenuGlyphItem Glyph="" Label="Home">
+                <metro:HamburgerMenuGlyphItem Glyph="&#xE80F;" Label="Home">
                     <metro:HamburgerMenuGlyphItem.Tag>
                         <local:HomeView />
                     </metro:HamburgerMenuGlyphItem.Tag>
                 </metro:HamburgerMenuGlyphItem>
 
-                <metro:HamburgerMenuGlyphItem Glyph="" Label="Palette generator">
+                <metro:HamburgerMenuGlyphItem Glyph="&#xE790;" Label="Palette generator">
                     <metro:HamburgerMenuGlyphItem.Tag>
                         <palette:PaletteGeneratorView />
                     </metro:HamburgerMenuGlyphItem.Tag>
@@ -82,9 +83,15 @@
 
         <metro:HamburgerMenu.OptionsItemsSource>
             <metro:HamburgerMenuItemCollection>
-                <metro:HamburgerMenuGlyphItem Glyph="" Label="About">
+                <metro:HamburgerMenuGlyphItem Glyph="&#xE946;" Label="About">
                     <metro:HamburgerMenuGlyphItem.Tag>
                         <local:AboutView />
+                    </metro:HamburgerMenuGlyphItem.Tag>
+                </metro:HamburgerMenuGlyphItem>
+
+                <metro:HamburgerMenuGlyphItem Glyph="&#xE713;" Label="Settings">
+                    <metro:HamburgerMenuGlyphItem.Tag>
+                        <local:SettingsView />
                     </metro:HamburgerMenuGlyphItem.Tag>
                 </metro:HamburgerMenuGlyphItem>
             </metro:HamburgerMenuItemCollection>
