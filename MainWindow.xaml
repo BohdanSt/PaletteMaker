@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PaletteMaker"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:palette="clr-namespace:PaletteMaker.Palette"
+        xmlns:imageProcessing="clr-namespace:PaletteMaker.ImageProcessing"
         mc:Ignorable="d"
         WindowTitleBrush="#FF1C8CBC"
         WindowStartupLocation="CenterScreen"
@@ -69,6 +70,12 @@
                 <metro:HamburgerMenuGlyphItem Glyph="&#xE80F;" Label="Home">
                     <metro:HamburgerMenuGlyphItem.Tag>
                         <local:HomeView />
+                    </metro:HamburgerMenuGlyphItem.Tag>
+                </metro:HamburgerMenuGlyphItem>
+
+                <metro:HamburgerMenuGlyphItem Glyph="&#xEB9F;" Label="Image processing">
+                    <metro:HamburgerMenuGlyphItem.Tag>
+                        <imageProcessing:ImageProcessingView />
                     </metro:HamburgerMenuGlyphItem.Tag>
                 </metro:HamburgerMenuGlyphItem>
 

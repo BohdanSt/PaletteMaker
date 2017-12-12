@@ -21,15 +21,15 @@
         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10" VerticalAlignment="Center">
             <TextBlock Text="PaletteMaker" FontSize="24" Margin="10" FontWeight="Bold" Foreground="#FF444444" 
                    VerticalAlignment="Center" HorizontalAlignment="Left"/>
-            <TextBlock FontSize="18" Margin="10" FontWeight="Bold" Foreground="#FF444444" HorizontalAlignment="Left"
+            <TextBlock FontSize="18" Margin="10" FontWeight="DemiBold" Foreground="#FF444444" HorizontalAlignment="Left"
                    Text="Program was designed by Bohdan Stakhov student of Vinnytsia National Technical University, master of program engineering." TextWrapping="Wrap"/>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
-            <TextBlock FontSize="18" Margin="10" FontWeight="Bold" Foreground="#FF444444"
+            <TextBlock FontSize="18" Margin="10" FontWeight="DemiBold" Foreground="#FF444444"
                    Text="PaletteMaker is the fast and easy to use program for image processing. The main advantage of the program is ability to generate the palette of dominant colors of image. Definition of the dominant colors based on k-means algorithm." 
                    TextWrapping="Wrap"/>
-            <TextBlock FontSize="18" Margin="10" FontWeight="Bold" Foreground="#FF444444"
+            <TextBlock FontSize="18" Margin="10" FontWeight="DemiBold" Foreground="#FF444444"
                    Text="Source code of project is available on GitHub: https://github.com/BohdanSt/PaletteMaker" 
                    TextWrapping="Wrap"/>
         </StackPanel>

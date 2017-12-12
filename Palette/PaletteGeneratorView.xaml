@@ -17,11 +17,11 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <WindowsFormsHost Grid.ColumnSpan="2" Margin="10">
+        <WindowsFormsHost Grid.ColumnSpan="2" Margin="10" Panel.ZIndex="-1">
             <emgu:ImageBox x:Name="imageControl" SizeMode="Zoom" FunctionalMode="Minimum"/>
         </WindowsFormsHost>
 
-        <WindowsFormsHost Grid.Row="1" Margin="10">
+        <WindowsFormsHost Grid.Row="1" Margin="10" Panel.ZIndex="1000">
             <emgu:ImageBox x:Name="imagePaletteBased" SizeMode="Zoom" MaximumSize="200, 200" FunctionalMode="RightClickMenu"/>
         </WindowsFormsHost>
 
