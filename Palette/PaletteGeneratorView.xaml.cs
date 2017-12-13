@@ -37,7 +37,7 @@ namespace PaletteMaker.Palette
         {
             imagePalette.Image = await PaletteGenerator.CreatePaletteImageAsync(imagePalette.Width, imagePalette.Height);
 
-            imagePaletteBased.Image = await PaletteGenerator.CreatePaletteBasedImageAsync();
+            //imagePaletteBased.Image = await PaletteGenerator.CreatePaletteBasedImageAsync();
 
             buttonGeneratePalette.IsEnabled = true;
         }

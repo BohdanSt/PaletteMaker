@@ -7,10 +7,10 @@
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:palette="clr-namespace:PaletteMaker.Palette"
         xmlns:imageProcessing="clr-namespace:PaletteMaker.ImageProcessing"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Background="WhiteSmoke"
         WindowTitleBrush="#FF1C8CBC"
         WindowStartupLocation="CenterScreen"
-        Title="PaletteMaker" Height="600" Width="950">
+        Title="PaletteMaker" Height="650" Width="1100">
 
     <metro:MetroWindow.Resources>
         <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type metro:HamburgerMenuGlyphItem}">

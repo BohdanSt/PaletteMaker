@@ -10,43 +10,38 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <WindowsFormsHost Grid.ColumnSpan="2" Margin="10" Panel.ZIndex="-1">
+        <WindowsFormsHost Grid.RowSpan="2" Margin="20">
             <emgu:ImageBox x:Name="imageControl" SizeMode="Zoom" FunctionalMode="Minimum"/>
         </WindowsFormsHost>
 
-        <WindowsFormsHost Grid.Row="1" Margin="10" Panel.ZIndex="1000">
+        <!--<WindowsFormsHost Grid.Row="1" Margin="10" Panel.ZIndex="1000">
             <emgu:ImageBox x:Name="imagePaletteBased" SizeMode="Zoom" MaximumSize="200, 200" FunctionalMode="RightClickMenu"/>
+        </WindowsFormsHost>-->
+
+        <WindowsFormsHost Grid.Column="1" Margin="20" Width="200" Height="200">
+            <emgu:ImageBox x:Name="imagePalette" SizeMode="Zoom" FunctionalMode="Minimum"/>
         </WindowsFormsHost>
 
-        <Grid Grid.Row="1" Grid.Column="1" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <WindowsFormsHost Grid.Row="0" Margin="10">
-                <emgu:ImageBox x:Name="imagePalette" SizeMode="Zoom" FunctionalMode="Minimum"/>
-            </WindowsFormsHost>
-
-            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-                <DockPanel Margin="10" HorizontalAlignment="Center">
-                    <metro:NumericUpDown x:Name="numericClustersCount" Width="100" DockPanel.Dock="Left"
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="20">
+            <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Clusters count" Margin="10" HorizontalAlignment="Left"
+                           Foreground="#FF444444" FontSize="16" FontWeight="DemiBold"/>
+                <metro:NumericUpDown x:Name="numericClustersCount" Width="150"
                     Minimum="3" Maximum="7" Value="5" HasDecimals="False"/>
-                    <TextBlock Text="Clusters count" Margin="10 0 0 0" DockPanel.Dock="Right"/>
-                </DockPanel>
-                <Button x:Name="buttonOpenImage" Content="Open image" Click="buttonOpenImage_Click" 
-                    Margin="10" Width="200" Height="35"/>
-                <Button x:Name="buttonGeneratePalette" Content="Generate Palette" Click="buttonGeneratePalette_Click" 
-                    Margin="10" Width="200" Height="35"/>
             </StackPanel>
-        </Grid>
+            
+            <Button x:Name="buttonOpenImage" Content="Open image" Click="buttonOpenImage_Click" 
+                Margin="10" FontSize="12" FontWeight="DemiBold" Width="150" Height="40"/>
+            <Button x:Name="buttonGeneratePalette" Content="Generate Palette" Click="buttonGeneratePalette_Click" 
+                Margin="10" FontSize="12" FontWeight="DemiBold" Width="150" Height="40"/>
+        </StackPanel>
 
     </Grid>
 </UserControl>
