@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using PaletteMaker.ImageProcessing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,15 +26,32 @@ namespace PaletteMaker
     {
         RegistryKey regKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
-        string folderPath = Directory.GetCurrentDirectory();
-
         string configFile = Directory.GetCurrentDirectory() + "\\PaletteMaker.config";
+
+        Dictionary<ColorModelConvertor.ColorModel, string> colorModels = new Dictionary<ColorModelConvertor.ColorModel, string>();
+
+        public static string folderPath = Directory.GetCurrentDirectory();
+
+        public static ColorModelConvertor.ColorModel selectedColorMode = ColorModelConvertor.ColorModel.BGR;
 
         public SettingsView()
         {
             InitializeComponent();
 
             InitializeSettings();
+
+            InitializeColorModelCombobox();
+        }
+
+        private void InitializeColorModelCombobox()
+        {
+            colorModels.Add(ColorModelConvertor.ColorModel.BGR, "RGB");
+            colorModels.Add(ColorModelConvertor.ColorModel.HLS, "HLS");
+            colorModels.Add(ColorModelConvertor.ColorModel.HSV, "HSV");
+            colorModels.Add(ColorModelConvertor.ColorModel.LAB, "LAB");
+            colorModels.Add(ColorModelConvertor.ColorModel.Grayscale, "Grayscale image");
+
+            comboboxColorModel.ItemsSource = colorModels;
         }
 
         private void InitializeSettings()
@@ -52,13 +70,22 @@ namespace PaletteMaker
             {
                 StreamReader fileReader = new StreamReader(configFile);
                 path = fileReader.ReadLine();
+
+                string colorModel = fileReader.ReadLine();
+                int value;
+                if (int.TryParse(colorModel, out value))
+                {
+                    if (Enum.IsDefined(typeof(ColorModelConvertor.ColorModel), value))
+                    {
+                        selectedColorMode = (ColorModelConvertor.ColorModel)value;
+                    }
+                }
+
                 fileReader.Close();
             }
             catch
             {
-                StreamWriter fileWriter = new StreamWriter(configFile, false);
-                fileWriter.WriteLine(folderPath);
-                fileWriter.Close();
+                UpdateConfigFile();
             }
 
             if (System.IO.Directory.Exists(path))
@@ -67,6 +94,14 @@ namespace PaletteMaker
             }
 
             textBlockFolder.Text = folderPath;
+        }
+
+        private void UpdateConfigFile()
+        {
+            StreamWriter fileWriter = new StreamWriter(configFile, false);
+            fileWriter.WriteLine(folderPath);
+            fileWriter.WriteLine((int)selectedColorMode);
+            fileWriter.Close();
         }
 
         private void AutoRunChange(object sender, RoutedEventArgs e)
@@ -87,9 +122,7 @@ namespace PaletteMaker
             {
                 folderPath = textBlockFolder.Text;
 
-                StreamWriter fileWriter = new StreamWriter(configFile, false);
-                fileWriter.WriteLine(folderPath);
-                fileWriter.Close();
+                UpdateConfigFile();
             }
             else
             {
@@ -106,10 +139,15 @@ namespace PaletteMaker
                 folderPath = fbd.SelectedPath;
                 textBlockFolder.Text = folderPath;
 
-                StreamWriter fileWriter = new StreamWriter(configFile, false);
-                fileWriter.WriteLine(folderPath);
-                fileWriter.Close();
+                UpdateConfigFile();
             }
+        }
+
+        private void comboboxColorModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedColorMode = (ColorModelConvertor.ColorModel)comboboxColorModel.SelectedValue;
+
+            UpdateConfigFile();
         }
     }
 }

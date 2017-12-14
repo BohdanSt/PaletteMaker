@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PaletteMaker.ImageProcessing"
-             xmlns:emgu="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.UI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -13,10 +12,8 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <WindowsFormsHost Grid.Column="0" Margin="20">
-            <emgu:ImageBox x:Name="imageControl" SizeMode="Zoom" FunctionalMode="Everything"/>
-        </WindowsFormsHost>
-
+        <Image x:Name="imageControl" Grid.Column="0" Margin="20" RenderOptions.BitmapScalingMode="HighQuality"/>
+        
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -25,16 +22,53 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            
+            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Margin="10 20 10 5">
+                <Border Grid.Row="0" BorderBrush="DarkGray" Margin="10 0" BorderThickness="1" Padding="5">
+                    <TextBlock x:Name="buttonZoomIn" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets"
+                        Foreground="Black" FontWeight="Bold" Text="&#xE71E;"/>
+                </Border>
+                <Border Grid.Row="0" BorderBrush="DarkGray" Margin="10 0" BorderThickness="1" Padding="5">
+                    <TextBlock x:Name="buttonZoomOut" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets"
+                        Foreground="Black" FontWeight="Bold" Text="&#xE71F;"/>
+                </Border>
+                <Border Grid.Row="0" BorderBrush="DarkGray" Margin="10 0" BorderThickness="1" Padding="5">
+                    <TextBlock x:Name="buttonRotate" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets"
+                        Foreground="Black" FontWeight="Bold" Text="&#xE7AD;"/>
+                </Border>
+            </StackPanel>
 
-            <Button x:Name="buttonOpenImage" Grid.Row="3" Content="Open image"  FontSize="12" FontWeight="DemiBold"
+            <Button x:Name="buttonAutoCorrection" Grid.Row="1" Content="Autocorrection" FontSize="12" FontWeight="DemiBold"
+                Margin="10" Width="150" Height="40"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="2" VerticalAlignment="Center">
+                <Label Content="Brightness" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 5"/>
+                <Slider x:Name="sliderBrightness" Maximum="100" Minimum="0" ValueChanged="sliderBrightness_ValueChanged" Margin="20 0 20 5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="3" VerticalAlignment="Center">
+                <Label Content="Saturation" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 5"/>
+                <Slider x:Name="sliderSaturation" Maximum="100" Minimum="0" ValueChanged="sliderSaturation_ValueChanged" Margin="20 0 20 10"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="4" VerticalAlignment="Center">
+                <Label Content="Smoothing" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
+                <ComboBox x:Name="comboboxSmoothingType" SelectedIndex="0" SelectionChanged="comboboxSmoothingType_SelectionChanged"
+                      FontSize="16" Foreground="#FF444444" FontWeight="DemiBold" Margin="10 5"
+                      SelectedValuePath="Key" DisplayMemberPath="Value" Width="150"/>
+                <Slider x:Name="sliderSmothing" Maximum="100" Minimum="0" Margin="20 10"/>
+            </StackPanel>
+
+            <Button x:Name="buttonOpenImage" Grid.Row="5" Content="Open image"  FontSize="12" FontWeight="DemiBold"
                 Margin="10" Width="150" Height="40" Click="buttonOpenImage_Click"/>
-            <Button x:Name="buttonCancelChanges" Grid.Row="4" Content="Cancel changes" FontSize="12" FontWeight="DemiBold"
+            <Button x:Name="buttonCancelChanges" Grid.Row="6" Content="Cancel changes" FontSize="12" FontWeight="DemiBold"
                 Margin="10" Width="150" Height="40" Click="buttonCancelChanges_Click"/>
-            <Button x:Name="buttonSaveImage" Grid.Row="5" Content="Save image" FontSize="12" FontWeight="DemiBold"
+            <Button x:Name="buttonSaveImage" Grid.Row="7" Content="Save image" FontSize="12" FontWeight="DemiBold"
                 Margin="10" Width="150" Height="40" Click="buttonSaveImage_Click"/>
         </Grid>
+
     </Grid>
 </UserControl>

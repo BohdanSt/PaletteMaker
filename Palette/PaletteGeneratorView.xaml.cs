@@ -16,6 +16,8 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using MahApps.Metro.Controls;
 using System.Windows.Forms;
+using System.Drawing;
+using PaletteMaker.ImageProcessing;
 
 namespace PaletteMaker.Palette
 {
@@ -26,6 +28,9 @@ namespace PaletteMaker.Palette
     {
         PaletteGenerator PaletteGenerator = new PaletteGenerator();
 
+        IImage currentImage;
+        IImage currentPalleteImage;
+
         public PaletteGeneratorView()
         {
             InitializeComponent();
@@ -35,9 +40,8 @@ namespace PaletteMaker.Palette
 
         private async void PaletteGenerator_GeneratePaletteFinished()
         {
-            imagePalette.Image = await PaletteGenerator.CreatePaletteImageAsync(imagePalette.Width, imagePalette.Height);
-
-            //imagePaletteBased.Image = await PaletteGenerator.CreatePaletteBasedImageAsync();
+            currentPalleteImage = await PaletteGenerator.CreatePaletteImageAsync((int)imagePalette.Width, (int)imagePalette.Height);
+            imagePalette.Source = EmguCVImageConverter.ToBitmapSource(currentPalleteImage);
 
             buttonGeneratePalette.IsEnabled = true;
         }
@@ -45,7 +49,7 @@ namespace PaletteMaker.Palette
         private void buttonGeneratePalette_Click(object sender, RoutedEventArgs e)
         {
             buttonGeneratePalette.IsEnabled = false;
-            PaletteGenerator.GeneratePaletteAsync((int)numericClustersCount.Value, imageControl.Image.Bitmap);
+            PaletteGenerator.GeneratePaletteAsync((int)numericClustersCount.Value, currentImage.Bitmap);
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)
@@ -54,8 +58,15 @@ namespace PaletteMaker.Palette
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                imageControl.Image = new Image<Bgr, byte>(openFileDialog.FileName);
+                currentImage = new Image<Bgr, byte>(openFileDialog.FileName);
+
+                imageControl.Source = EmguCVImageConverter.ToBitmapSource(currentImage);
             }
+        }
+
+        private void buttonSavePalette_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

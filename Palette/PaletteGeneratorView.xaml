@@ -4,42 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PaletteMaker.Palette"
-             xmlns:emgu="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.UI"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="240"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <WindowsFormsHost Grid.RowSpan="2" Margin="20">
-            <emgu:ImageBox x:Name="imageControl" SizeMode="Zoom" FunctionalMode="Minimum"/>
-        </WindowsFormsHost>
+        <Image x:Name="imageControl" Grid.RowSpan="2" Margin="20" RenderOptions.BitmapScalingMode="HighQuality"/>
 
-        <!--<WindowsFormsHost Grid.Row="1" Margin="10" Panel.ZIndex="1000">
-            <emgu:ImageBox x:Name="imagePaletteBased" SizeMode="Zoom" MaximumSize="200, 200" FunctionalMode="RightClickMenu"/>
-        </WindowsFormsHost>-->
+        <Image x:Name="imagePalette" Grid.Column="1" Margin="20" Width="200" Height="180"/>
 
-        <WindowsFormsHost Grid.Column="1" Margin="20" Width="200" Height="200">
-            <emgu:ImageBox x:Name="imagePalette" SizeMode="Zoom" FunctionalMode="Minimum"/>
-        </WindowsFormsHost>
-
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="20">
-            <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
-                <TextBlock Text="Clusters count" Margin="10" HorizontalAlignment="Left"
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" Margin="10">
+            <StackPanel Margin="10 0" Orientation="Vertical" HorizontalAlignment="Center">
+                <Label Content="Clusters count" Margin="10" HorizontalAlignment="Left"
                            Foreground="#FF444444" FontSize="16" FontWeight="DemiBold"/>
                 <metro:NumericUpDown x:Name="numericClustersCount" Width="150"
                     Minimum="3" Maximum="7" Value="5" HasDecimals="False"/>
+                <TextBlock Text="Expected number of dominant colors" TextWrapping="Wrap" Foreground="Gray" 
+                           FontSize="14" FontWeight="DemiBold" Margin="10"/>
             </StackPanel>
             
             <Button x:Name="buttonOpenImage" Content="Open image" Click="buttonOpenImage_Click" 
                 Margin="10" FontSize="12" FontWeight="DemiBold" Width="150" Height="40"/>
             <Button x:Name="buttonGeneratePalette" Content="Generate Palette" Click="buttonGeneratePalette_Click" 
+                Margin="10" FontSize="12" FontWeight="DemiBold" Width="150" Height="40"/>
+            <Button x:Name="buttonSavePalette" Content="Save Palette" Click="buttonSavePalette_Click" 
                 Margin="10" FontSize="12" FontWeight="DemiBold" Width="150" Height="40"/>
         </StackPanel>
 

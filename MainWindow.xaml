@@ -67,11 +67,11 @@
 
         <metro:HamburgerMenu.ItemsSource>
             <metro:HamburgerMenuItemCollection>
-                <metro:HamburgerMenuGlyphItem Glyph="&#xE80F;" Label="Home">
+                <!--<metro:HamburgerMenuGlyphItem Glyph="&#xE80F;" Label="Home">
                     <metro:HamburgerMenuGlyphItem.Tag>
                         <local:HomeView />
                     </metro:HamburgerMenuGlyphItem.Tag>
-                </metro:HamburgerMenuGlyphItem>
+                </metro:HamburgerMenuGlyphItem>-->
 
                 <metro:HamburgerMenuGlyphItem Glyph="&#xEB9F;" Label="Image processing">
                     <metro:HamburgerMenuGlyphItem.Tag>

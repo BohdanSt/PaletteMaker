@@ -23,11 +23,25 @@ namespace PaletteMaker.ImageProcessing
     /// </summary>
     public partial class ImageProcessingView : System.Windows.Controls.UserControl
     {
-        private Image<Bgr, byte> originalImage;
+        IImage originalImage;
+
+        Dictionary<ImageSmoothing.SmoothingType, string> smoothingTypes = new Dictionary<ImageSmoothing.SmoothingType, string>();
 
         public ImageProcessingView()
         {
             InitializeComponent();
+
+            InitializeSmoothingCombobox();
+        }
+
+        private void InitializeSmoothingCombobox()
+        {
+            smoothingTypes.Add(ImageSmoothing.SmoothingType.Bilatral, "Bilatral");
+            smoothingTypes.Add(ImageSmoothing.SmoothingType.Blur, "Blur");
+            smoothingTypes.Add(ImageSmoothing.SmoothingType.Gaussian, "Gaussian");
+            smoothingTypes.Add(ImageSmoothing.SmoothingType.Median, "Median");
+
+            comboboxSmoothingType.ItemsSource = smoothingTypes;
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)
@@ -37,13 +51,13 @@ namespace PaletteMaker.ImageProcessing
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 originalImage = new Image<Bgr, byte>(openFileDialog.FileName);
-                imageControl.Image = originalImage;
+                imageControl.Source = EmguCVImageConverter.ToBitmapSource(originalImage);
             }
         }
 
         private void buttonCancelChanges_Click(object sender, RoutedEventArgs e)
         {
-            imageControl.Image = originalImage;
+            imageControl.Source = EmguCVImageConverter.ToBitmapSource(originalImage);
         }
 
         private void buttonSaveImage_Click(object sender, RoutedEventArgs e)
@@ -53,6 +67,21 @@ namespace PaletteMaker.ImageProcessing
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
             }
+        }
+
+        private void sliderBrightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void sliderSaturation_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void comboboxSmoothingType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
