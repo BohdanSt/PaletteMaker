@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Diagnostics;
 using ImageProcessor.Imaging;
+using ImageProcessor.Imaging.Filters.Photo;
 
 namespace PaletteMaker.ImageProcessing
 {
@@ -23,6 +24,7 @@ namespace PaletteMaker.ImageProcessing
         private int contrast;
         private int hueValue;
         private bool isUseAutoCorrection;
+        private ImageFiltering.FilterType filterType;
 
         public delegate void UpdateImageControlDelegate(ImageSource image);
         public event UpdateImageControlDelegate OnUpdateImageControl;
@@ -41,6 +43,12 @@ namespace PaletteMaker.ImageProcessing
                         imageFactory.Brightness(brightness);
                         imageFactory.Contrast(contrast);
                         imageFactory.Hue(hueValue);
+
+                        IMatrixFilter matrixFilter = ImageFiltering.GetFilterToApply(filterType);
+                        if (matrixFilter != null)
+                        {
+                            imageFactory.Filter(matrixFilter);
+                        }
 
                         if (isUseAutoCorrection)
                         {
@@ -125,6 +133,12 @@ namespace PaletteMaker.ImageProcessing
         public void HueChange(int value)
         {
             hueValue = value;
+            ApplyChangesToImage();
+        }
+
+        internal void ApplyFilter(ImageFiltering.FilterType selectedFilter)
+        {
+            filterType = selectedFilter;
             ApplyChangesToImage();
         }
     }

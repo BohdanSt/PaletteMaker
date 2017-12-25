@@ -48,10 +48,16 @@ namespace PaletteMaker.ImageProcessing
         private void InitializeFiltersCombobox()
         {
             filters.Add(ImageFiltering.FilterType.None, "Original image");
-            filters.Add(ImageFiltering.FilterType.Bilatral, "Bilatral");
-            filters.Add(ImageFiltering.FilterType.Blur, "Blur");
-            filters.Add(ImageFiltering.FilterType.Gaussian, "Gaussian");
-            filters.Add(ImageFiltering.FilterType.Median, "Median");
+            filters.Add(ImageFiltering.FilterType.BlackWhite, "BlackWhite");
+            filters.Add(ImageFiltering.FilterType.Comic, "Comic");
+            filters.Add(ImageFiltering.FilterType.Gotham, "Gotham");
+            filters.Add(ImageFiltering.FilterType.GreyScale, "GreyScale");
+            filters.Add(ImageFiltering.FilterType.HiSatch, "HiSatch");
+            filters.Add(ImageFiltering.FilterType.Invert, "Invert");
+            filters.Add(ImageFiltering.FilterType.Lomograph, "Lomograph");
+            filters.Add(ImageFiltering.FilterType.LoSatch, "LoSatch");
+            filters.Add(ImageFiltering.FilterType.Polaroid, "Polaroid");
+            filters.Add(ImageFiltering.FilterType.Sepia, "Sepia");
 
             comboboxFilterType.ItemsSource = filters;
         }
@@ -96,17 +102,12 @@ namespace PaletteMaker.ImageProcessing
         private void comboboxFilterType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedFilter = (ImageFiltering.FilterType)comboboxFilterType.SelectedValue;
-            ApplyFilter();
+            imageFactoryWrapper.ApplyFilter(selectedFilter);
         }
 
         private void sliderFiltering_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
-        }
-
-        private void ApplyFilter()
-        {
-
+            // other filters
         }
 
         private void buttonAutoCorrection_Click(object sender, RoutedEventArgs e)
@@ -139,7 +140,7 @@ namespace PaletteMaker.ImageProcessing
             var slider = sender as Slider;
             if (slider != null)
             {
-                slider.Value = 0;
+                slider.Value = 0; // update in wrapper
             }
         }
     }

@@ -57,8 +57,8 @@
             <StackPanel Orientation="Vertical" Grid.Row="5" VerticalAlignment="Center">
                 <Label Content="Apply filter" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
                 <ComboBox x:Name="comboboxFilterType" SelectionChanged="comboboxFilterType_SelectionChanged"
-                      FontSize="16" Foreground="#FF444444" FontWeight="DemiBold" Margin="10 5"
-                      SelectedValuePath="Key" DisplayMemberPath="Value" Width="150"/>
+                      FontSize="16" Foreground="#FF444444" FontWeight="DemiBold" Margin="10 5" Width="150"
+                      SelectedValuePath="Key" DisplayMemberPath="Value" SelectedIndex="0"/>
                 <Slider x:Name="sliderFiltering" Maximum="100" Minimum="0" Margin="20 10" ValueChanged="sliderFiltering_ValueChanged"/>
             </StackPanel>
 
