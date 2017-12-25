@@ -7,10 +7,12 @@ using Emgu.CV;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using System.Windows;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace PaletteMaker.ImageProcessing
 {
-    public static class EmguCVImageConverter
+    public static class CustomImageConverter
     {
         /// <summary>
         /// Delete a GDI object
@@ -25,7 +27,7 @@ namespace PaletteMaker.ImageProcessing
         /// </summary>
         /// <param name="image">The Emgu CV Image</param>
         /// <returns>The equivalent BitmapSource</returns>
-        public static BitmapSource ToBitmapSource(IImage image)
+        public static BitmapSource EmguCVToBitmapSource(IImage image)
         {
             using (System.Drawing.Bitmap source = image.Bitmap)
             {
@@ -39,6 +41,23 @@ namespace PaletteMaker.ImageProcessing
 
                 DeleteObject(ptr); //release the HBitmap
                 return bs;
+            }
+        }
+
+        public static BitmapSource DrawingImageToBitmapSource(System.Drawing.Image image)
+        {
+            using (var ms = new MemoryStream())
+            {
+                image.Save(ms, ImageFormat.Bmp);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.StreamSource = ms;
+                bitmapImage.EndInit();
+
+                return bitmapImage;
             }
         }
     }

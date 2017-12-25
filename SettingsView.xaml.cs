@@ -68,20 +68,22 @@ namespace PaletteMaker
             string path = "";
             try
             {
-                StreamReader fileReader = new StreamReader(configFile);
-                path = fileReader.ReadLine();
-
-                string colorModel = fileReader.ReadLine();
-                int value;
-                if (int.TryParse(colorModel, out value))
+                using (StreamReader fileReader = new StreamReader(configFile))
                 {
-                    if (Enum.IsDefined(typeof(ColorModelConvertor.ColorModel), value))
-                    {
-                        selectedColorMode = (ColorModelConvertor.ColorModel)value;
-                    }
-                }
+                    path = fileReader.ReadLine();
 
-                fileReader.Close();
+                    string colorModel = fileReader.ReadLine();
+                    int value;
+                    if (int.TryParse(colorModel, out value))
+                    {
+                        if (Enum.IsDefined(typeof(ColorModelConvertor.ColorModel), value))
+                        {
+                            selectedColorMode = (ColorModelConvertor.ColorModel)value;
+                        }
+                    }
+
+                    fileReader.Close();
+                }
             }
             catch
             {
@@ -98,10 +100,12 @@ namespace PaletteMaker
 
         private void UpdateConfigFile()
         {
-            StreamWriter fileWriter = new StreamWriter(configFile, false);
-            fileWriter.WriteLine(folderPath);
-            fileWriter.WriteLine((int)selectedColorMode);
-            fileWriter.Close();
+            using (StreamWriter fileWriter = new StreamWriter(configFile, false))
+            {
+                fileWriter.WriteLine(folderPath);
+                fileWriter.WriteLine((int)selectedColorMode);
+                fileWriter.Close();
+            }
         }
 
         private void AutoRunChange(object sender, RoutedEventArgs e)
@@ -133,13 +137,15 @@ namespace PaletteMaker
 
         private void buttonFolder_Click(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
-                folderPath = fbd.SelectedPath;
-                textBlockFolder.Text = folderPath;
+                if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    folderPath = fbd.SelectedPath;
+                    textBlockFolder.Text = folderPath;
 
-                UpdateConfigFile();
+                    UpdateConfigFile();
+                }
             }
         }
 

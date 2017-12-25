@@ -82,11 +82,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ImageProcessing\ColorModelConvertor.cs" />
-    <Compile Include="ImageProcessing\EmguCVImageConverter.cs" />
+    <Compile Include="ImageProcessing\CustomImageConverter.cs" />
+    <Compile Include="ImageProcessing\ImageFactoryWrapper.cs" />
     <Compile Include="ImageProcessing\ImageProcessingView.xaml.cs">
       <DependentUpon>ImageProcessingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageProcessing\ImageSmoothing.cs" />
+    <Compile Include="ImageProcessing\ImageFiltering.cs" />
     <Compile Include="SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>

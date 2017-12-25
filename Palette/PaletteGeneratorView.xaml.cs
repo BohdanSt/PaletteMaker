@@ -41,7 +41,7 @@ namespace PaletteMaker.Palette
         private async void PaletteGenerator_GeneratePaletteFinished()
         {
             currentPalleteImage = await PaletteGenerator.CreatePaletteImageAsync((int)imagePalette.Width, (int)imagePalette.Height);
-            imagePalette.Source = EmguCVImageConverter.ToBitmapSource(currentPalleteImage);
+            imagePalette.Source = CustomImageConverter.EmguCVToBitmapSource(currentPalleteImage);
 
             buttonGeneratePalette.IsEnabled = true;
         }
@@ -54,19 +54,27 @@ namespace PaletteMaker.Palette
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                currentImage = new Image<Bgr, byte>(openFileDialog.FileName);
-
-                imageControl.Source = EmguCVImageConverter.ToBitmapSource(currentImage);
+                openFileDialog.Filter = "Image files (*.png,*.jpeg,*.jpg,*.bmp)|*.png;*.jpeg;*.jpg;*.bmp";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    currentImage = new Image<Bgr, byte>(openFileDialog.FileName);
+                    imageControl.Source = CustomImageConverter.EmguCVToBitmapSource(currentImage);
+                }
             }
         }
 
         private void buttonSavePalette_Click(object sender, RoutedEventArgs e)
         {
-
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "PNG (*.png)|*.png|JPEG (*.jpeg,*.jpg)|*.jpeg;*.jpg|BMP (*.bmp)|*.bmp";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    currentPalleteImage.Save(saveFileDialog.FileName);
+                }
+            }
         }
     }
 }

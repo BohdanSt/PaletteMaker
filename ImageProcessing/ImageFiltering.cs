@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace PaletteMaker.ImageProcessing
 {
-    public static class ImageSmoothing
+    public static class ImageFiltering
     {
-        public enum SmoothingType
+        public enum FilterType
         {
+            None,
             Bilatral,
             Blur,
             Gaussian,

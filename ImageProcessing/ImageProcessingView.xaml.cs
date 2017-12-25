@@ -1,7 +1,9 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using ImageProcessor;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,65 +25,122 @@ namespace PaletteMaker.ImageProcessing
     /// </summary>
     public partial class ImageProcessingView : System.Windows.Controls.UserControl
     {
-        IImage originalImage;
+        ImageFactoryWrapper imageFactoryWrapper = new ImageFactoryWrapper();
 
-        Dictionary<ImageSmoothing.SmoothingType, string> smoothingTypes = new Dictionary<ImageSmoothing.SmoothingType, string>();
+        ImageFiltering.FilterType selectedFilter = ImageFiltering.FilterType.None;
+
+        Dictionary<ImageFiltering.FilterType, string> filters = new Dictionary<ImageFiltering.FilterType, string>();
 
         public ImageProcessingView()
         {
             InitializeComponent();
 
-            InitializeSmoothingCombobox();
+            InitializeFiltersCombobox();
+
+            imageFactoryWrapper.OnUpdateImageControl += ImageFactoryWrapper_OnUpdateImageControl;
         }
 
-        private void InitializeSmoothingCombobox()
+        private void ImageFactoryWrapper_OnUpdateImageControl(ImageSource image)
         {
-            smoothingTypes.Add(ImageSmoothing.SmoothingType.Bilatral, "Bilatral");
-            smoothingTypes.Add(ImageSmoothing.SmoothingType.Blur, "Blur");
-            smoothingTypes.Add(ImageSmoothing.SmoothingType.Gaussian, "Gaussian");
-            smoothingTypes.Add(ImageSmoothing.SmoothingType.Median, "Median");
+            imageControl.Source = image;
+        }
 
-            comboboxSmoothingType.ItemsSource = smoothingTypes;
+        private void InitializeFiltersCombobox()
+        {
+            filters.Add(ImageFiltering.FilterType.None, "Original image");
+            filters.Add(ImageFiltering.FilterType.Bilatral, "Bilatral");
+            filters.Add(ImageFiltering.FilterType.Blur, "Blur");
+            filters.Add(ImageFiltering.FilterType.Gaussian, "Gaussian");
+            filters.Add(ImageFiltering.FilterType.Median, "Median");
+
+            comboboxFilterType.ItemsSource = filters;
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                originalImage = new Image<Bgr, byte>(openFileDialog.FileName);
-                imageControl.Source = EmguCVImageConverter.ToBitmapSource(originalImage);
+                openFileDialog.Filter = "Image files (*.png,*.jpeg,*.jpg,*.bmp)|*.png;*.jpeg;*.jpg;*.bmp";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    imageFactoryWrapper.LoadImage(openFileDialog.FileName);
+                }
             }
         }
 
         private void buttonCancelChanges_Click(object sender, RoutedEventArgs e)
         {
-            imageControl.Source = EmguCVImageConverter.ToBitmapSource(originalImage);
+            imageFactoryWrapper.CancelChanges();
+
+            comboboxFilterType.SelectedIndex = 0;
+            sliderFiltering.Value = 0;
+
+            sliderBrightness.Value = 0;
+            sliderSaturation.Value = 0;
+            sliderContrast.Value = 0;
+            sliderHue.Value = 0;
         }
 
         private void buttonSaveImage_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
+                saveFileDialog.Filter = "PNG (*.png)|*.png|JPEG (*.jpeg,*.jpg)|*.jpeg;*.jpg|BMP (*.bmp)|*.bmp";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    imageFactoryWrapper.SaveImage(saveFileDialog.FileName);
+                }
             }
         }
 
-        private void sliderBrightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void comboboxFilterType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedFilter = (ImageFiltering.FilterType)comboboxFilterType.SelectedValue;
+            ApplyFilter();
+        }
+
+        private void sliderFiltering_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
         }
 
-        private void sliderSaturation_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void ApplyFilter()
         {
 
         }
 
-        private void comboboxSmoothingType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void buttonAutoCorrection_Click(object sender, RoutedEventArgs e)
         {
+            imageFactoryWrapper.AutoCorrection();
+        }
 
+        private void sliderBrightness_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            imageFactoryWrapper.BrightnessChange((int)sliderBrightness.Value);
+        }
+
+        private void sliderSaturation_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            imageFactoryWrapper.SaturationChange((int)sliderSaturation.Value);
+        }
+
+        private void sliderContrast_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            imageFactoryWrapper.ContrastChange((int)sliderContrast.Value);
+        }
+
+        private void sliderHue_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            imageFactoryWrapper.HueChange((int)sliderHue.Value);
+        }
+
+        private void slider_DefaultValue(object sender, MouseButtonEventArgs e)
+        {
+            var slider = sender as Slider;
+            if (slider != null)
+            {
+                slider.Value = 0;
+            }
         }
     }
 }
