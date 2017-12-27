@@ -27,15 +27,16 @@ namespace PaletteMaker.ImageProcessing
     {
         ImageFactoryWrapper imageFactoryWrapper = new ImageFactoryWrapper();
 
-        ImageFiltering.FilterType selectedFilter = ImageFiltering.FilterType.None;
-
         Dictionary<ImageFiltering.FilterType, string> filters = new Dictionary<ImageFiltering.FilterType, string>();
+
+        Dictionary<ImageEffect.EffectType, string> effects = new Dictionary<ImageEffect.EffectType, string>();
 
         public ImageProcessingView()
         {
             InitializeComponent();
 
             InitializeFiltersCombobox();
+            InitializeEffectsCombobox();
 
             imageFactoryWrapper.OnUpdateImageControl += ImageFactoryWrapper_OnUpdateImageControl;
         }
@@ -62,6 +63,20 @@ namespace PaletteMaker.ImageProcessing
             comboboxFilterType.ItemsSource = filters;
         }
 
+        private void InitializeEffectsCombobox()
+        {
+            effects.Add(ImageEffect.EffectType.None, "Original image");
+            effects.Add(ImageEffect.EffectType.GaussianBlur, "GaussianBlur");
+            effects.Add(ImageEffect.EffectType.GaussianSharpen, "GaussianSharpen");
+            effects.Add(ImageEffect.EffectType.Pixelate, "Pixelate");
+            effects.Add(ImageEffect.EffectType.Vignette, "Vignette");
+            effects.Add(ImageEffect.EffectType.BinaryThreshold, "BinaryThreshold");
+            effects.Add(ImageEffect.EffectType.Halftone, "Halftone");
+            effects.Add(ImageEffect.EffectType.OilPainting, "OilPainting");
+
+            comboboxEffectType.ItemsSource = effects;
+        }
+
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -79,7 +94,7 @@ namespace PaletteMaker.ImageProcessing
             imageFactoryWrapper.CancelChanges();
 
             comboboxFilterType.SelectedIndex = 0;
-            sliderFiltering.Value = 0;
+            comboboxEffectType.SelectedIndex = 0;
 
             sliderBrightness.Value = 0;
             sliderSaturation.Value = 0;
@@ -101,13 +116,8 @@ namespace PaletteMaker.ImageProcessing
 
         private void comboboxFilterType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedFilter = (ImageFiltering.FilterType)comboboxFilterType.SelectedValue;
+            var selectedFilter = (ImageFiltering.FilterType)comboboxFilterType.SelectedValue;
             imageFactoryWrapper.ApplyFilter(selectedFilter);
-        }
-
-        private void sliderFiltering_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            // other filters
         }
 
         private void buttonAutoCorrection_Click(object sender, RoutedEventArgs e)
@@ -135,13 +145,34 @@ namespace PaletteMaker.ImageProcessing
             imageFactoryWrapper.HueChange((int)sliderHue.Value);
         }
 
-        private void slider_DefaultValue(object sender, MouseButtonEventArgs e)
+        private void sliderBrightness_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var slider = sender as Slider;
-            if (slider != null)
-            {
-                slider.Value = 0; // update in wrapper
-            }
+            sliderBrightness.Value = 0;
+            imageFactoryWrapper.BrightnessChange((int)sliderBrightness.Value);
+        }
+
+        private void sliderSaturation_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            sliderSaturation.Value = 0;
+            imageFactoryWrapper.SaturationChange((int)sliderSaturation.Value);
+        }
+
+        private void sliderContrast_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            sliderContrast.Value = 0;
+            imageFactoryWrapper.ContrastChange((int)sliderContrast.Value);
+        }
+
+        private void sliderHue_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            sliderHue.Value = 0;
+            imageFactoryWrapper.HueChange((int)sliderHue.Value);
+        }
+
+        private void comboboxEffectType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedEffect = (ImageEffect.EffectType)comboboxEffectType.SelectedValue;
+            imageFactoryWrapper.ApplyEffect(selectedEffect);
         }
     }
 }

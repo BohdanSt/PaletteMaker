@@ -11,12 +11,14 @@ using System.Windows.Media;
 using System.Diagnostics;
 using ImageProcessor.Imaging;
 using ImageProcessor.Imaging.Filters.Photo;
+using System.Windows.Media.Imaging;
 
 namespace PaletteMaker.ImageProcessing
 {
     class ImageFactoryWrapper
     {
         private ImageSource resultImage;
+        private ImageLayer processingImage;
 
         private Image originalImage;
         private int brightness;
@@ -25,39 +27,57 @@ namespace PaletteMaker.ImageProcessing
         private int hueValue;
         private bool isUseAutoCorrection;
         private ImageFiltering.FilterType filterType;
+        private ImageEffect.EffectType effectType;
 
         public delegate void UpdateImageControlDelegate(ImageSource image);
         public event UpdateImageControlDelegate OnUpdateImageControl;
+
+        public ImageFactoryWrapper()
+        {
+            processingImage = new ImageLayer();
+            Stream memoryStream = App.GetResourceStream(new Uri("pack://application:,,,/PaletteMaker;component/Images/Processing.png")).Stream;
+            processingImage.Image = Image.FromStream(memoryStream);
+        }
 
         private async void ApplyChangesToImage()
         {
             if (originalImage != null)
             {
-                using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+                ImageFactory imageFactory = new ImageFactory(preserveExifData: true);
+
+                if (effectType != ImageEffect.EffectType.None)
                 {
                     await Task.Factory.StartNew(() =>
                     {
                         imageFactory.Load(originalImage);
-
-                        imageFactory.Saturation(saturation);
-                        imageFactory.Brightness(brightness);
-                        imageFactory.Contrast(contrast);
-                        imageFactory.Hue(hueValue);
-
-                        IMatrixFilter matrixFilter = ImageFiltering.GetFilterToApply(filterType);
-                        if (matrixFilter != null)
-                        {
-                            imageFactory.Filter(matrixFilter);
-                        }
-
-                        if (isUseAutoCorrection)
-                        {
-                            isUseAutoCorrection = false;
-                        }
+                        imageFactory.Overlay(processingImage);
                     });
 
                     UpdateResultImage(imageFactory.Image);
                 }
+
+                await Task.Factory.StartNew(() =>
+                {
+                    imageFactory.Load(originalImage);
+
+                    imageFactory.Saturation(saturation);
+                    imageFactory.Brightness(brightness);
+                    imageFactory.Contrast(contrast);
+                    imageFactory.Hue(hueValue);
+
+                    ImageFiltering.ApplyFilter(filterType, ref imageFactory);
+                    
+                    ImageEffect.ApplyEffect(effectType, ref imageFactory);
+
+                    if (isUseAutoCorrection)
+                    {
+                        isUseAutoCorrection = false;
+                    }
+                });
+
+                UpdateResultImage(imageFactory.Image);
+
+                imageFactory.Dispose();
             }
         }
 
@@ -139,6 +159,12 @@ namespace PaletteMaker.ImageProcessing
         internal void ApplyFilter(ImageFiltering.FilterType selectedFilter)
         {
             filterType = selectedFilter;
+            ApplyChangesToImage();
+        }
+
+        internal void ApplyEffect(ImageEffect.EffectType selectedEffect)
+        {
+            effectType = selectedEffect;
             ApplyChangesToImage();
         }
     }

@@ -25,48 +25,55 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Button x:Name="buttonAutoCorrection" Grid.Row="0" Content="Autocorrection" FontSize="12" FontWeight="DemiBold"
                 Margin="10" Width="150" Height="40" Click="buttonAutoCorrection_Click"/>
 
             <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Center">
-                <Label Content="Brightness" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 5"/>
+                <Label Content="Brightness" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
                 <Slider x:Name="sliderBrightness" Maximum="100" Minimum="-100" LostMouseCapture="sliderBrightness_LostMouseCapture" 
-                        Margin="20 0" Interval="10" Value="0" MouseRightButtonDown="slider_DefaultValue"/>
+                        Margin="20 0" Interval="10" Value="0" MouseRightButtonDown="sliderBrightness_MouseRightButtonDown"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Row="2" VerticalAlignment="Center">
-                <Label Content="Saturation" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 5"/>
+                <Label Content="Saturation" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
                 <Slider x:Name="sliderSaturation" Maximum="100" Minimum="-100" LostMouseCapture="sliderSaturation_LostMouseCapture" 
-                        Margin="20 0" Interval="10" Value="0" MouseRightButtonDown="slider_DefaultValue"/>
+                        Margin="20 0" Interval="10" Value="0" MouseRightButtonDown="sliderSaturation_MouseRightButtonDown"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Row="3" VerticalAlignment="Center">
-                <Label Content="Contrast" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 5"/>
+                <Label Content="Contrast" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
                 <Slider x:Name="sliderContrast" Maximum="100" Minimum="-100" LostMouseCapture="sliderContrast_LostMouseCapture" 
-                        Margin="20 0" Interval="10" Value="0" MouseRightButtonDown="slider_DefaultValue"/>
+                        Margin="20 0" Interval="10" Value="0" MouseRightButtonDown="sliderContrast_MouseRightButtonDown"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Row="4" VerticalAlignment="Center">
-                <Label Content="Hue" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 5"/>
+                <Label Content="Hue" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
                 <Slider x:Name="sliderHue" Maximum="360" Minimum="0" LostMouseCapture="sliderHue_LostMouseCapture" 
-                        Margin="20 0 20 5" Interval="10" Value="0" MouseRightButtonDown="slider_DefaultValue"/>
+                        Margin="20 0 20 5" Interval="10" Value="0" MouseRightButtonDown="sliderHue_MouseRightButtonDown"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Row="5" VerticalAlignment="Center">
                 <Label Content="Apply filter" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
                 <ComboBox x:Name="comboboxFilterType" SelectionChanged="comboboxFilterType_SelectionChanged"
-                      FontSize="16" Foreground="#FF444444" FontWeight="DemiBold" Margin="10 5" Width="150"
+                      FontSize="16" Foreground="#FF444444" FontWeight="DemiBold" Margin="10 5" Width="150" Height="28"
                       SelectedValuePath="Key" DisplayMemberPath="Value" SelectedIndex="0"/>
-                <Slider x:Name="sliderFiltering" Maximum="100" Minimum="0" Margin="20 10" ValueChanged="sliderFiltering_ValueChanged"/>
             </StackPanel>
 
-            <Button x:Name="buttonOpenImage" Grid.Row="6" Content="Open image"  FontSize="12" FontWeight="DemiBold"
-                Margin="5" Width="150" Height="40" Click="buttonOpenImage_Click"/>
-            <Button x:Name="buttonCancelChanges" Grid.Row="7" Content="Cancel changes" FontSize="12" FontWeight="DemiBold"
+            <StackPanel Orientation="Vertical" Grid.Row="6" VerticalAlignment="Center">
+                <Label Content="Apply effect" Foreground="#FF444444" FontSize="16" FontWeight="DemiBold" Margin="20 0"/>
+                <ComboBox x:Name="comboboxEffectType" SelectionChanged="comboboxEffectType_SelectionChanged"
+                      FontSize="16" Foreground="#FF444444" FontWeight="DemiBold" Margin="10 5" Width="150" Height="28"
+                      SelectedValuePath="Key" DisplayMemberPath="Value" SelectedIndex="0"/>
+            </StackPanel>
+
+            <Button x:Name="buttonOpenImage" Grid.Row="7" Content="Open image"  FontSize="12" FontWeight="DemiBold"
+                Margin="5 10 5 5" Width="150" Height="40" Click="buttonOpenImage_Click"/>
+            <Button x:Name="buttonCancelChanges" Grid.Row="8" Content="Cancel changes" FontSize="12" FontWeight="DemiBold"
                 Margin="5" Width="150" Height="40" Click="buttonCancelChanges_Click"/>
-            <Button x:Name="buttonSaveImage" Grid.Row="8" Content="Save image" FontSize="12" FontWeight="DemiBold"
+            <Button x:Name="buttonSaveImage" Grid.Row="9" Content="Save image" FontSize="12" FontWeight="DemiBold"
                 Margin="5" Width="150" Height="40" Click="buttonSaveImage_Click"/>
         </Grid>
 

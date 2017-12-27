@@ -1,4 +1,5 @@
-﻿using ImageProcessor.Imaging.Filters.Photo;
+﻿using ImageProcessor;
+using ImageProcessor.Imaging.Filters.Photo;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -25,7 +26,7 @@ namespace PaletteMaker.ImageProcessing
             Sepia
         }
 
-        public static IMatrixFilter GetFilterToApply(FilterType filterType)
+        private static IMatrixFilter GetFilterToApply(FilterType filterType)
         {
             IMatrixFilter selectedFilter;
             
@@ -67,6 +68,15 @@ namespace PaletteMaker.ImageProcessing
             }
 
             return selectedFilter;
+        }
+
+        public static void ApplyFilter(FilterType filterType, ref ImageFactory imageFactory)
+        {
+            IMatrixFilter selectedFilter = GetFilterToApply(filterType);
+            if (selectedFilter != null)
+            {
+                imageFactory.Filter(selectedFilter);
+            }
         }
     }
 }

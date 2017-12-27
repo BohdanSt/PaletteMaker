@@ -17,7 +17,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Image Source="Logo.ico" RenderOptions.BitmapScalingMode="HighQuality" Stretch="None" Margin="20"/>
+        <Image Source="pack://application:,,,/PaletteMaker;component/Images/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality" Stretch="None" Margin="20"/>
         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10" VerticalAlignment="Center">
             <TextBlock Text="PaletteMaker" FontSize="24" Margin="10" FontWeight="Bold" Foreground="#FF444444" 
                    VerticalAlignment="Center" HorizontalAlignment="Left"/>
