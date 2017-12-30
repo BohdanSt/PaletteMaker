@@ -27,9 +27,9 @@ namespace PaletteMaker.ImageProcessing
     {
         ImageFactoryWrapper imageFactoryWrapper = new ImageFactoryWrapper();
 
-        Dictionary<ImageFiltering.FilterType, string> filters = new Dictionary<ImageFiltering.FilterType, string>();
+        Dictionary<FilterType, string> filters = new Dictionary<FilterType, string>();
 
-        Dictionary<ImageEffect.EffectType, string> effects = new Dictionary<ImageEffect.EffectType, string>();
+        Dictionary<EffectType, string> effects = new Dictionary<EffectType, string>();
 
         public ImageProcessingView()
         {
@@ -48,31 +48,31 @@ namespace PaletteMaker.ImageProcessing
 
         private void InitializeFiltersCombobox()
         {
-            filters.Add(ImageFiltering.FilterType.None, "Original image");
-            filters.Add(ImageFiltering.FilterType.BlackWhite, "BlackWhite");
-            filters.Add(ImageFiltering.FilterType.Comic, "Comic");
-            filters.Add(ImageFiltering.FilterType.Gotham, "Gotham");
-            filters.Add(ImageFiltering.FilterType.GreyScale, "GreyScale");
-            filters.Add(ImageFiltering.FilterType.HiSatch, "HiSatch");
-            filters.Add(ImageFiltering.FilterType.Invert, "Invert");
-            filters.Add(ImageFiltering.FilterType.Lomograph, "Lomograph");
-            filters.Add(ImageFiltering.FilterType.LoSatch, "LoSatch");
-            filters.Add(ImageFiltering.FilterType.Polaroid, "Polaroid");
-            filters.Add(ImageFiltering.FilterType.Sepia, "Sepia");
+            filters.Add(FilterType.None, "Original image");
+            filters.Add(FilterType.BlackWhite, "BlackWhite");
+            filters.Add(FilterType.Comic, "Comic");
+            filters.Add(FilterType.Gotham, "Gotham");
+            filters.Add(FilterType.GreyScale, "GreyScale");
+            filters.Add(FilterType.HiSatch, "HiSatch");
+            filters.Add(FilterType.Invert, "Invert");
+            filters.Add(FilterType.Lomograph, "Lomograph");
+            filters.Add(FilterType.LoSatch, "LoSatch");
+            filters.Add(FilterType.Polaroid, "Polaroid");
+            filters.Add(FilterType.Sepia, "Sepia");
 
             comboboxFilterType.ItemsSource = filters;
         }
 
         private void InitializeEffectsCombobox()
         {
-            effects.Add(ImageEffect.EffectType.None, "Original image");
-            effects.Add(ImageEffect.EffectType.GaussianBlur, "GaussianBlur");
-            effects.Add(ImageEffect.EffectType.GaussianSharpen, "GaussianSharpen");
-            effects.Add(ImageEffect.EffectType.Pixelate, "Pixelate");
-            effects.Add(ImageEffect.EffectType.Vignette, "Vignette");
-            effects.Add(ImageEffect.EffectType.BinaryThreshold, "BinaryThreshold");
-            effects.Add(ImageEffect.EffectType.Halftone, "Halftone");
-            effects.Add(ImageEffect.EffectType.OilPainting, "OilPainting");
+            effects.Add(EffectType.None, "Original image");
+            effects.Add(EffectType.GaussianBlur, "GaussianBlur");
+            effects.Add(EffectType.GaussianSharpen, "GaussianSharpen");
+            effects.Add(EffectType.Pixelate, "Pixelate");
+            effects.Add(EffectType.Vignette, "Vignette");
+            effects.Add(EffectType.BinaryThreshold, "BinaryThreshold");
+            effects.Add(EffectType.Halftone, "Halftone");
+            effects.Add(EffectType.OilPainting, "OilPainting");
 
             comboboxEffectType.ItemsSource = effects;
         }
@@ -116,7 +116,7 @@ namespace PaletteMaker.ImageProcessing
 
         private void comboboxFilterType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedFilter = (ImageFiltering.FilterType)comboboxFilterType.SelectedValue;
+            var selectedFilter = (FilterType)comboboxFilterType.SelectedValue;
             imageFactoryWrapper.ApplyFilter(selectedFilter);
         }
 
@@ -171,7 +171,7 @@ namespace PaletteMaker.ImageProcessing
 
         private void comboboxEffectType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedEffect = (ImageEffect.EffectType)comboboxEffectType.SelectedValue;
+            var selectedEffect = (EffectType)comboboxEffectType.SelectedValue;
             imageFactoryWrapper.ApplyEffect(selectedEffect);
         }
     }

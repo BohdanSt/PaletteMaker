@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace PaletteMaker.ImageProcessing
 {
+    public enum EffectType
+    {
+        None,
+        GaussianBlur,
+        GaussianSharpen,
+        Pixelate,
+        Vignette,
+        BinaryThreshold,
+        Halftone,
+        OilPainting
+    }
+
     public static class ImageEffect
     {
-        public enum EffectType
-        {
-            None,
-            GaussianBlur,
-            GaussianSharpen,
-            Pixelate,
-            Vignette,
-            BinaryThreshold,
-            Halftone,
-            OilPainting
-        }
-
         public static void ApplyEffect(EffectType effectType, ref ImageFactory imageFactory)
         {
             switch (effectType)

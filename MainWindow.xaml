@@ -69,13 +69,13 @@
             <metro:HamburgerMenuItemCollection>
                 <metro:HamburgerMenuGlyphItem Glyph="&#xEB9F;" Label="Image processing">
                     <metro:HamburgerMenuGlyphItem.Tag>
-                        <imageProcessing:ImageProcessingView />
+                        <imageProcessing:ImageProcessingView x:Name="imageProcessingView"/>
                     </metro:HamburgerMenuGlyphItem.Tag>
                 </metro:HamburgerMenuGlyphItem>
 
                 <metro:HamburgerMenuGlyphItem Glyph="&#xE790;" Label="Palette generator">
                     <metro:HamburgerMenuGlyphItem.Tag>
-                        <palette:PaletteGeneratorView />
+                        <palette:PaletteGeneratorView x:Name="paletteGeneratorView"/>
                     </metro:HamburgerMenuGlyphItem.Tag>
                 </metro:HamburgerMenuGlyphItem>
 
@@ -86,13 +86,13 @@
             <metro:HamburgerMenuItemCollection>
                 <metro:HamburgerMenuGlyphItem Glyph="&#xE946;" Label="About">
                     <metro:HamburgerMenuGlyphItem.Tag>
-                        <local:AboutView />
+                        <local:AboutView x:Name="aboutView"/>
                     </metro:HamburgerMenuGlyphItem.Tag>
                 </metro:HamburgerMenuGlyphItem>
 
                 <metro:HamburgerMenuGlyphItem Glyph="&#xE713;" Label="Settings">
                     <metro:HamburgerMenuGlyphItem.Tag>
-                        <local:SettingsView />
+                        <local:SettingsView x:Name="settingsView"/>
                     </metro:HamburgerMenuGlyphItem.Tag>
                 </metro:HamburgerMenuGlyphItem>
             </metro:HamburgerMenuItemCollection>

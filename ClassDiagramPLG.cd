@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PaletteMaker.Palette.PaletteGenerator">
+    <Position X="2.75" Y="1" Width="2.5" />
+    <NestedTypes>
+      <Delegate Name="PaletteMaker.Palette.PaletteGenerator.GeneratePaletteFinishedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Palette\PaletteGenerator.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAQAIKAAAAAAQEAAFAgAAAACAgIAAQAAxAAAAAAAI=</HashCode>
+      <FileName>Palette\PaletteGenerator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="clusters" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PaletteMaker.Palette.PaletteGeneratorView" BaseTypeListCollapsed="true">
+    <Position X="6.75" Y="1" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAQAAEAAAAEAAAAAAAAABAIQAAAAAAAAAAA=</HashCode>
+      <FileName>Palette\PaletteGeneratorView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="PaletteGenerator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Struct Name="PaletteMaker.Palette.ColorCluster">
+    <Position X="6.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAACAAAAAAQAAAAA=</HashCode>
+      <FileName>Palette\ColorCluster.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -28,11 +28,11 @@ namespace PaletteMaker
 
         string configFile = Directory.GetCurrentDirectory() + "\\PaletteMaker.config";
 
-        Dictionary<ColorModelConvertor.ColorModel, string> colorModels = new Dictionary<ColorModelConvertor.ColorModel, string>();
+        Dictionary<ColorModel, string> colorModels = new Dictionary<ColorModel, string>();
 
         public static string folderPath = Directory.GetCurrentDirectory();
 
-        public static ColorModelConvertor.ColorModel selectedColorMode = ColorModelConvertor.ColorModel.BGR;
+        public static ColorModel selectedColorMode = ColorModel.BGR;
 
         public SettingsView()
         {
@@ -45,11 +45,11 @@ namespace PaletteMaker
 
         private void InitializeColorModelCombobox()
         {
-            colorModels.Add(ColorModelConvertor.ColorModel.BGR, "RGB");
-            colorModels.Add(ColorModelConvertor.ColorModel.HLS, "HLS");
-            colorModels.Add(ColorModelConvertor.ColorModel.HSV, "HSV");
-            colorModels.Add(ColorModelConvertor.ColorModel.LAB, "LAB");
-            colorModels.Add(ColorModelConvertor.ColorModel.Grayscale, "Grayscale image");
+            colorModels.Add(ColorModel.BGR, "RGB");
+            colorModels.Add(ColorModel.HLS, "HLS");
+            colorModels.Add(ColorModel.HSV, "HSV");
+            colorModels.Add(ColorModel.LAB, "LAB");
+            colorModels.Add(ColorModel.Grayscale, "Grayscale image");
 
             comboboxColorModel.ItemsSource = colorModels;
         }
@@ -76,9 +76,9 @@ namespace PaletteMaker
                     int value;
                     if (int.TryParse(colorModel, out value))
                     {
-                        if (Enum.IsDefined(typeof(ColorModelConvertor.ColorModel), value))
+                        if (Enum.IsDefined(typeof(ColorModel), value))
                         {
-                            selectedColorMode = (ColorModelConvertor.ColorModel)value;
+                            selectedColorMode = (ColorModel)value;
                         }
                     }
 
@@ -151,7 +151,7 @@ namespace PaletteMaker
 
         private void comboboxColorModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedColorMode = (ColorModelConvertor.ColorModel)comboboxColorModel.SelectedValue;
+            selectedColorMode = (ColorModel)comboboxColorModel.SelectedValue;
 
             UpdateConfigFile();
         }

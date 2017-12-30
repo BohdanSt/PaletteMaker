@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PaletteMaker.ImageProcessing.ImageFactoryWrapper">
+    <Position X="6.5" Y="0.5" Width="2" />
+    <NestedTypes>
+      <Delegate Name="PaletteMaker.ImageProcessing.ImageFactoryWrapper.UpdateImageControlDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ImageProcessing\ImageFactoryWrapper.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAUAgAKQEAAAAAAAARQAYAAAADAAAgACAQiACAAABBA=</HashCode>
+      <FileName>ImageProcessing\ImageFactoryWrapper.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="effectType" />
+      <Field Name="filterType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PaletteMaker.ImageProcessing.ImageProcessingView" BaseTypeListCollapsed="true">
+    <Position X="2" Y="0.5" Width="3.25" />
+    <AssociationLine Name="imageFactoryWrapper" Type="PaletteMaker.ImageProcessing.ImageFactoryWrapper">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.037" Y="0.102" Height="0.182" Width="1.527" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAAAAABAAAIgElBgAAIAQACEAAACAAQQQAAAAAAAARA=</HashCode>
+      <FileName>ImageProcessing\ImageProcessingView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="imageFactoryWrapper" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="PaletteMaker.ImageProcessing.EffectType">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAIAAQAAAEAAAAAAAAAAAAIAAAAAAEAAAo=</HashCode>
+      <FileName>ImageProcessing\ImageEffect.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PaletteMaker.ImageProcessing.FilterType">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEEEAABAABAAAAAEAgAAAABAAAAAAAACAAAEAAEA=</HashCode>
+      <FileName>ImageProcessing\ImageFiltering.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PaletteMaker.ImageProcessing.ColorModelConvertor">
+    <Position X="2.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImageProcessing\ColorModelConvertor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PaletteMaker.ImageProcessing.CustomImageConverter">
+    <Position X="9.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAIAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImageProcessing\CustomImageConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PaletteMaker.ImageProcessing.ImageEffect">
+    <Position X="12.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImageProcessing\ImageEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PaletteMaker.ImageProcessing.ImageFactoryWrapper">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="PaletteMaker.ImageProcessing.ImageFactoryWrapper.UpdateImageControlDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ImageProcessing\ImageFactoryWrapper.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAUAgAKQEAAAAAAAARUAYAAAADAAAgACAQiACAAABBA=</HashCode>
+      <FileName>ImageProcessing\ImageFactoryWrapper.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="effectType" />
+      <Field Name="filterType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PaletteMaker.ImageProcessing.ImageFiltering">
+    <Position X="12.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImageProcessing\ImageFiltering.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PaletteMaker.ImageProcessing.ImageProcessingView" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAABAAAIgElBgAAIAQACEAAACAAQQQAAAAAAAARA=</HashCode>
+      <FileName>ImageProcessing\ImageProcessingView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="imageFactoryWrapper" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PaletteMaker.Palette.PaletteGenerator">
+    <Position X="2.75" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="PaletteMaker.Palette.PaletteGenerator.GeneratePaletteFinishedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Palette\PaletteGenerator.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAQAIKAAAAAAQEAAFAgAAAACAgIAAQAAxAAAAAAAI=</HashCode>
+      <FileName>Palette\PaletteGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PaletteMaker.Palette.PaletteGeneratorView" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAQAAEAAAAEAAAAAAAAABAIQAAAAAAAAAAA=</HashCode>
+      <FileName>Palette\PaletteGeneratorView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="PaletteGenerator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PaletteMaker.AboutView">
+    <Position X="7.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AboutView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PaletteMaker.SettingsView">
+    <Position X="5.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgQAAAAAEABAAAIAgAAAAAAQAQAAAAABAAYAAIAAA=</HashCode>
+      <FileName>SettingsView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="selectedColorMode" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PaletteMaker.MainWindow">
+    <Position X="7.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="PaletteMaker.Palette.ColorCluster">
+    <Position X="5.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAACAAAAAAQAAAAA=</HashCode>
+      <FileName>Palette\ColorCluster.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="PaletteMaker.ImageProcessing.EffectType">
+    <Position X="12.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAIAAQAAAEAAAAAAAAAAAAIAAAAAAEAAAo=</HashCode>
+      <FileName>ImageProcessing\ImageEffect.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PaletteMaker.ImageProcessing.FilterType">
+    <Position X="12.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEEEAABAABAAAAAEAgAAAABAAAAAAAACAAAEAAEA=</HashCode>
+      <FileName>ImageProcessing\ImageFiltering.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PaletteMaker.ImageProcessing.ColorModel">
+    <Position X="2.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEgAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>ImageProcessing\ColorModelConvertor.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

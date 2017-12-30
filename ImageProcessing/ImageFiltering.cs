@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace PaletteMaker.ImageProcessing
 {
+    public enum FilterType
+    {
+        None,
+        BlackWhite,
+        Comic,
+        Gotham,
+        GreyScale,
+        HiSatch,
+        Invert,
+        Lomograph,
+        LoSatch,
+        Polaroid,
+        Sepia
+    }
+
     public static class ImageFiltering
     {
-        public enum FilterType
-        {
-            None,
-            BlackWhite,
-            Comic,
-            Gotham,
-            GreyScale,
-            HiSatch,
-            Invert,
-            Lomograph,
-            LoSatch,
-            Polaroid,
-            Sepia
-        }
-
         private static IMatrixFilter GetFilterToApply(FilterType filterType)
         {
             IMatrixFilter selectedFilter;

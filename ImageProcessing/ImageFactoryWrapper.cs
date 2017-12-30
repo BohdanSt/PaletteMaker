@@ -21,13 +21,14 @@ namespace PaletteMaker.ImageProcessing
         private ImageLayer processingImage;
 
         private Image originalImage;
+        private Image currentImage;
         private int brightness;
         private int saturation;
         private int contrast;
         private int hueValue;
         private bool isUseAutoCorrection;
-        private ImageFiltering.FilterType filterType;
-        private ImageEffect.EffectType effectType;
+        private FilterType filterType;
+        private EffectType effectType;
 
         public delegate void UpdateImageControlDelegate(ImageSource image);
         public event UpdateImageControlDelegate OnUpdateImageControl;
@@ -45,11 +46,11 @@ namespace PaletteMaker.ImageProcessing
             {
                 ImageFactory imageFactory = new ImageFactory(preserveExifData: true);
 
-                if (effectType != ImageEffect.EffectType.None)
+                if (effectType != EffectType.None)
                 {
                     await Task.Factory.StartNew(() =>
                     {
-                        imageFactory.Load(originalImage);
+                        imageFactory.Load(currentImage);
                         imageFactory.Overlay(processingImage);
                     });
 
@@ -83,6 +84,8 @@ namespace PaletteMaker.ImageProcessing
 
         private void UpdateResultImage(Image image)
         {
+            currentImage = image.Clone() as Image;
+
             resultImage = CustomImageConverter.DrawingImageToBitmapSource(image);
 
             OnUpdateImageControl?.Invoke(resultImage);
@@ -156,13 +159,13 @@ namespace PaletteMaker.ImageProcessing
             ApplyChangesToImage();
         }
 
-        internal void ApplyFilter(ImageFiltering.FilterType selectedFilter)
+        public void ApplyFilter(FilterType selectedFilter)
         {
             filterType = selectedFilter;
             ApplyChangesToImage();
         }
 
-        internal void ApplyEffect(ImageEffect.EffectType selectedEffect)
+        public void ApplyEffect(EffectType selectedEffect)
         {
             effectType = selectedEffect;
             ApplyChangesToImage();
