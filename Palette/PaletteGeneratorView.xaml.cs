@@ -50,6 +50,7 @@ namespace PaletteMaker.Palette
         {
             buttonGeneratePalette.IsEnabled = false;
             PaletteGenerator.GeneratePaletteAsync((int)numericClustersCount.Value, currentImage.Bitmap);
+            imagePalette.Source = new BitmapImage(new Uri("pack://application:,,,/PaletteMaker;component/Images/Processing.png"));
         }
 
         private void buttonOpenImage_Click(object sender, RoutedEventArgs e)

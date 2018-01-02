@@ -18,7 +18,7 @@
 
         <Image x:Name="imageControl" Grid.RowSpan="2" Margin="20" RenderOptions.BitmapScalingMode="HighQuality"/>
 
-        <Image x:Name="imagePalette" Grid.Column="1" Margin="20" Width="200" Height="180"/>
+        <Image x:Name="imagePalette" Grid.Column="1" Margin="20" Width="200" Height="180" RenderOptions.BitmapScalingMode="Fant"/>
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" Margin="10">
             <StackPanel Margin="10 0" Orientation="Vertical" HorizontalAlignment="Center">
