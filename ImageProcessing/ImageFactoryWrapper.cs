@@ -59,7 +59,10 @@ namespace PaletteMaker.ImageProcessing
 
                 await Task.Factory.StartNew(() =>
                 {
-                    imageFactory.Load(originalImage);
+                    lock (originalImage)
+                    {
+                        imageFactory.Load(originalImage);
+                    }
 
                     imageFactory.Saturation(saturation);
                     imageFactory.Brightness(brightness);
@@ -67,7 +70,7 @@ namespace PaletteMaker.ImageProcessing
                     imageFactory.Hue(hueValue);
 
                     ImageFiltering.ApplyFilter(filterType, ref imageFactory);
-                    
+
                     ImageEffect.ApplyEffect(effectType, ref imageFactory);
 
                     if (isUseAutoCorrection)
@@ -79,6 +82,9 @@ namespace PaletteMaker.ImageProcessing
                 UpdateResultImage(imageFactory.Image);
 
                 imageFactory.Dispose();
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
 
@@ -135,9 +141,9 @@ namespace PaletteMaker.ImageProcessing
 
         public void SaveImage(string fileName)
         {
-            if (originalImage != null)
+            if (currentImage != null)
             {
-                originalImage.Save(fileName);
+                currentImage.Save(fileName);
             }
         }
 
